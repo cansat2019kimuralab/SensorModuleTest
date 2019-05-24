@@ -1,11 +1,11 @@
 ﻿# GPS用リポジトリ
 ## 使い方
 pigpioをインストールする  
-'sudo apt install pigpio'
-pigpiodを実行する
-'sudo pigpiod'  
-コードsoftSerialTest.pyを実行する
-'python softSerialTest.py'
+`sudo apt install pigpio`  
+pigpiodを実行する  
+`sudo pigpiod `   
+コードsoftSerialTest.pyを実行する  
+`python softSerialTest.py`
 
 ## 参考ページ
 - [Raspberry Pi 2nd UART a.k.a. Bit Banging a.k.a. Software Serial](https://www.rs-online.com/designspark/raspberry-pi-2nd-uart-a-k-a-bit-banging-a-k-a-software-serial)
