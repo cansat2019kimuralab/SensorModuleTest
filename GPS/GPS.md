@@ -2,8 +2,10 @@
 ## 使い方
 pigpioをインストールする  
 `sudo apt install pigpio`  
+  
 pigpiodを実行する  
 `sudo pigpiod `   
+  
 コードsoftSerialTest.pyを実行する  
 `python softSerialTest.py`
 
