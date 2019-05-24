@@ -9,6 +9,12 @@ pigpiodを実行する
 コードsoftSerialTest.pyを実行する  
 `python softSerialTest.py`
 
+## pigpioの自動起動
+pigpioを実行しなければライブラリを使えない。  
+面倒な場合、Raspberry Piの起動と同時にpigpioを実行できるようにする。  
+/etc/rc.localに以下のコマンドを追加する。
+`sudo pigpiod`
+
 ## 参考ページ
 - [Raspberry Pi 2nd UART a.k.a. Bit Banging a.k.a. Software Serial](https://www.rs-online.com/designspark/raspberry-pi-2nd-uart-a-k-a-bit-banging-a-k-a-software-serial)
 - [Raspberry Pi3でpigpioライブラリを使ってLチカする](https://qiita.com/yuuri23/items/597fd1a40c63627e59c2)  
