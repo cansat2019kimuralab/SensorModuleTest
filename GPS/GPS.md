@@ -12,7 +12,7 @@ pigpiodを実行する
 ## pigpioの自動起動
 pigpioを実行しなければライブラリを使えない。  
 面倒な場合、Raspberry Piの起動と同時にpigpioを実行できるようにする。  
-/etc/rc.localに以下のコマンドを追加する。
+/etc/rc.localに以下のコマンドを追加する。  
 `sudo pigpiod`
 
 ## 参考ページ
