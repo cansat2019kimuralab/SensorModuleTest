@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #coding: utf-8
 
 from smbus import SMBus
@@ -75,7 +75,7 @@ def readData():
 
 
 	MEAN_SEA_LEVEL_PRESSURE = 1010.6
-	altitude = 44330.0 * (pow(MEAN_SEA_LEVEL_PRESSURE / pres, 0.190294957) - 1.0)
+	altitude = ((temp+273.15)/0.0065)* (pow(MEAN_SEA_LEVEL_PRESSURE / pres, 0.190294957) - 1.0)
 	print("altitude : "+str(altitude) + " m")
 
 
@@ -157,6 +157,3 @@ if __name__ == '__main__':
 			time.sleep(1)
 	except KeyboardInterrupt:
 		pass
-=======
-
->>>>>>> 6d7404ea3490dca2387ad70740a44f71d1f16541
