@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #coding: utf-8
 
 from smbus import SMBus
@@ -156,3 +157,6 @@ if __name__ == '__main__':
 			time.sleep(1)
 	except KeyboardInterrupt:
 		pass
+=======
+
+>>>>>>> 6d7404ea3490dca2387ad70740a44f71d1f16541
