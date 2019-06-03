@@ -4,7 +4,7 @@ import difflib
 import pigpio
 
 RX=26
-
+#
 try:
 	pi = pigpio.pi()
 	pi.set_mode(RX, pigpio.INPUT)
