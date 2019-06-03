@@ -4,7 +4,7 @@ import time
 ACC_ADDRESS = 0x19
 ACC_REGISTER_ADDRESS = 0x02
 
-def bmx055():
+def acc_dataRead():
 	i2c = smbus.SMBus(1)
 
 	x_lsb = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS)
@@ -25,9 +25,13 @@ def bmx055():
 	y_acc = y_value * 0.0098
 	z_acc = z_value * 0.0098
 
-	print("[%f, %f, %f]" % (x_acc, y_acc, z_acc))
-
 	i2c.close()
+
+	return x_acc, y_acc, z_acc
+
+def bmx055():
+	accx , accy, accz = acc_dataRead()
+	print("[%f, %f, %f]" % (accx, accy, accz)
 
 while 1:
 	bmx055()
