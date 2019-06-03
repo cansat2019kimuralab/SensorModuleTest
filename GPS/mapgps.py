@@ -4,7 +4,7 @@ import difflib
 import pigpio
 
 RX=26
-#
+#aa
 try:
 	pi = pigpio.pi()
 	pi.set_mode(RX, pigpio.INPUT)
@@ -39,7 +39,7 @@ try:
 				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				#print("Time:" + str(utctime) + " ", end="")
 				print(str(Lat) + "," end="")
-				print(str(Lon) + ""), end="")
+				print(str(Lon) + " "), end="")
 
 				gpgga = gpsData[gga:gga+60]
 				hight = gpgga.find(",M,")
