@@ -20,13 +20,13 @@ def set_motor(pi1, a, b, c, t):
 try:
 	set_motor(pi1, 0, 0, 1, 0.5) # stop (neutral)
 	for i in range(4):
-	set_motor(pi1, 1, 0, 1, 0.3) # normal rotation
-	set_motor(pi1, 0, 0, 1, 2.0) # brake
+		set_motor(pi1, 1, 0, 1, 0.3) # normal rotation
+		set_motor(pi1, 0, 0, 1, 2.0) # brake
 
 
-for i in range(4):
-	set_motor(pi1, 0, 1, 1, 0.3) # reverse rotation
-	set_motor(pi1, 0, 0, 1, 2.0) # brake
+	for i in range(4):
+		set_motor(pi1, 0, 1, 1, 0.3) # reverse rotation
+		set_motor(pi1, 0, 0, 1, 2.0) # brake
 
 except KeyboardInterrupt:
 	print "done!"
