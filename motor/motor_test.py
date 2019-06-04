@@ -29,7 +29,7 @@ try:
 		set_motor(pi1, 0, 0, 1, 2.0) # brake
 
 except KeyboardInterrupt:
-	print "done!"
+	print ("done!")
 
 set_motor(pi1, 0, 0, 1, 0.5) # stop (neutral)
 pi1.set_mode(AIN1, pigpio.INPUT)
