@@ -6,6 +6,7 @@ import pigpio
 RX=26
 path="/home/pi/git/kimuralab/SensorModulkeTest/GPS/log.txt"
 f=open(path)
+print("hello")
 try:
 	pi = pigpio.pi()
 	pi.set_mode(RX, pigpio.INPUT)
