@@ -1,12 +1,14 @@
-<<<<<<< HEAD
+
 import sys
 import time
 import difflib
 import pigpio
 
 RX=26
-path="/home/pi/git/kimuralab/SensorModulkeTest/GPS/log.txt"
-f=open(path)
+with open('log.txt','w')as f:
+    pass
+
+
 print("hello")
 try:
 	pi = pigpio.pi()
@@ -41,8 +43,8 @@ try:
 				Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				#print("Time:" + str(utctime) + " ", end="")
-				print(str(Lat) + "," end="")
-				print(str(Lon) + ""), end="")
+				print(str(Lat) + ",", end="")
+				print(str(Lon) + "", end="")
 
 				gpgga = gpsData[gga:gga+60]
 				hight = gpgga.find(",M,")
