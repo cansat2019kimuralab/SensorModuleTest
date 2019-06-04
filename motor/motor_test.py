@@ -2,9 +2,9 @@
 import pigpio
 import time
 
-AIN1 = 18
-AIN2=16
-PWMA=12
+AIN1 = 24
+AIN2=23
+PWMA=18
 
 pi1 = pigpio.pi()
 pi1.set_mode(AIN1, pigpio.OUTPUT)
