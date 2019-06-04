@@ -45,6 +45,8 @@ try:
 				#print("Time:" + str(utctime) + " ", end="")
 				print(str(Lat) + ",", end="")
 				print(str(Lon) + "", end="")
+				f.write(str(LAT))
+				f.write(str(LON))
 
 				gpgga = gpsData[gga:gga+60]
 				hight = gpgga.find(",M,")
