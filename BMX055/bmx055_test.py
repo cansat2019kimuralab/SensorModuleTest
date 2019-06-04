@@ -9,14 +9,24 @@ MAG_ADDRESS = 0x13
 MAG_REGISTER_ADDRESS = 0x42
 
 def bmx055_setup():
+	#time.sleep(3)
 	i2c = smbus.SMBus(1)
-	i2c.write_byte_data(0x13, 0x4B, 0x01)
-	i2c.write_byte_data(0x13, 0x4C, 0x00)
-	i2c.write_byte_data(0x13, 0x4E, 0x84)
-	i2c.write_byte_data(0x13, 0x51, 0x04)
-	i2c.write_byte_data(0x13, 0x52, 0x0F)
+	data = i2c.read_byte_data(MAG_ADDRESS, 0x4B)
+	if(data == 0):
+		i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x83)
+		time.sleep(0.1)
+	
+	i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x01)
+	time.sleep(0.1)
+	i2c.write_byte_data(MAG_ADDRESS, 0x4C, 0x00)
+	time.sleep(0.1)
+	i2c.write_byte_data(MAG_ADDRESS, 0x4E, 0x84)
+	time.sleep(0.1)
+	i2c.write_byte_data(MAG_ADDRESS, 0x51, 0x04)
+	time.sleep(0.1)
+	i2c.write_byte_data(MAG_ADDRESS, 0x52, 0x0F)
+	time.sleep(0.1)
 	i2c.close()
-	time.sleep(1)
 
 def acc_dataRead():
 	i2c = smbus.SMBus(1)
@@ -52,19 +62,26 @@ def gyr_dataRead():
 
 def mag_dataRead():
 	i2c = smbus.SMBus(1)
-	magData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+	magData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 	value = [0.0, 0.0, 0.0]
-	for i in range(6):
+	for i in range(8):
 		magData[i] = i2c.read_byte_data(MAG_ADDRESS, MAG_REGISTER_ADDRESS + i)
+		#print(str(magData[i]) + " ", end="")
+	#print()
 
 	for i in range(3):
 		if i != 2:
 			value[i] = ((magData[2*i+1] *256) + (magData[2*i] & 0xF8)) / 8
-			value[i] = value[i] if value[i] > 4095 else value[i] - 8192
+			#print(str(value[i]) + " ", end="")
+			if value[i] > 4095:
+				value[i] = value[i] - 8192
 		else:
-			value[i] = ((magData[2*i+1] *256) + (magData[2*i] & 0xFE)) / 2
-			value[i] = value[i] if value[i] > 16383 else value[i] - 32768
+			value[i] = ((magData[2*i+1] * 256) | (magData[2*i] & 0xF8)) / 2
+			#print(str(value[i]) + " ", end="")
+			if value[i] > 16383:
+				value[i] = value[i] - 32768
 
+	#print()
 	i2c.close()
 
 	return value
@@ -76,20 +93,21 @@ def bmx055():
 	magx, magy, magz = mag_dataRead()
 	#print("[%f, %f, %f] " % (accx, accy, accz), end="")
 	#print("[%f, %f, %f] " % (gyrx, gyry, gyrz), end="")
-	print("[%f, %f, %f] " % (magx, magy, magz), end="")
-	print()
+	#print("[%f, %f, %f] " % (magx, magy, magz), end="")
+	#print()
 	path = 'bmx055test.txt'
 	with open(path, mode='a') as f:
 		f.write("%f, %f, %f " % (magx, magy, magz))
 		f.write("\n")
-	
 
 
 if __name__ == '__main__':
 	try:
 		bmx055_setup()
+		
 		while 1:
 			bmx055()
-			time.sleep(0.3)
+			time.sleep(0.1)
+		
 	except KeyboardInterrupt:
-		pass 
+		print()
