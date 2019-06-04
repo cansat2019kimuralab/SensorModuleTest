@@ -5,11 +5,8 @@ import difflib
 import pigpio
 
 RX=26
-with open('log.txt','w')as f:
-    pass
-
-
-print("hello")
+f=open('testlog.txt','w')
+f.write("hello")
 try:
     pi = pigpio.pi()
     pi.set_mode(RX, pigpio.INPUT)
@@ -34,20 +31,22 @@ try:
                 #Status V
                 print("Status V ", end="")
                 print()
-                f.write("status V",end="")
+                f.write("status V\n")
             elif(gpsData[rmc:rmc+20].find("A") != -1):
                 #Status A
                 gprmc = gpsData[rmc+7:]
                 utctime = gpsData[rmc+7:rmc+17]
                 lat = gpsData[rmc+20:rmc+29]
+
+
                 lon = gpsData[rmc+32:rmc+42]
                 Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
                 Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
                 #print("Time:" + str(utctime) + " ", end="")
                 print(str(Lat) + ",", end="")
                 print(str(Lon) + "", end="")
-                f.write(str(LAT))
-                f.write(str(LON))
+                f.write(str(Lat))
+                f.write(str(Lon))
 
                 gpgga = gpsData[gga:gga+60]
                 hight = gpgga.find(",M,")
@@ -65,8 +64,9 @@ except KeyboardInterrupt:
     pi.bb_serial_read_close(RX)
     pi.stop()
     print("\r\nKeyboard Intruppted, Serial Closed")
-except:
-    pi.bb_serial_read_close(RX)
-    pi.stop()
-    print ("Error, Serial Cloesd")
-f.close()
+#xcept:
+    #pi.bb_serial_read_close(RX)
+    #pi.stop()
+    #print ("Error, Serial Cloesd")
+
+
