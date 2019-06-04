@@ -4,7 +4,8 @@ import difflib
 import pigpio
 
 RX=26
-#
+path="/home/pi/git/kimuralab/SensorModulkeTest/GPS/log.txt"
+f=open(path)
 try:
 	pi = pigpio.pi()
 	pi.set_mode(RX, pigpio.INPUT)
@@ -61,3 +62,4 @@ except:
 	pi.bb_serial_read_close(RX)
 	pi.stop()
 	print ("Error, Serial Cloesd")
+f.close()
