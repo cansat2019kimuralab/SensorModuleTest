@@ -101,6 +101,10 @@ def compensate_T(adc_T):
 	t_fine = v1 + v2
 	temperature = t_fine / 5120.0
 	print("temp : " + str(temperature) + " ℃") 
+	plessure=1023
+	MEAN_SEA_LEVEL_PRESSURE=1013.5
+	altitude = 44330.0 * (1.0 - pow(pressure / MEAN_SEA_LEVEL_PRESSURE, 0.190294957))
+	print("altitude"+str(altitude))
 
 def compensate_H(adc_H):
 	global t_fine
