@@ -13,6 +13,9 @@ pi1 = pigpio.pi()
 pi1.set_mode(AIN1, pigpio.OUTPUT)
 pi1.set_mode(AIN2, pigpio.OUTPUT)
 pi1.set_mode(PWMA,pigpio.OUTPUT)
+pi1.set_mode(BIN1, pigpio.OUTPUT)
+pi1.set_mode(BIN2, pigpio.OUTPUT)
+pi1.set_mode(PWMB,pigpio.OUTPUT)
 
 def set_motor(pi1, a, b, c, t):
 	pi1.write(AIN1, a)
@@ -21,8 +24,8 @@ def set_motor(pi1, a, b, c, t):
 	time.sleep(t)
 
 def motor(left, right):
-	left = left / 10000
-	right = right / 10000
+	left = left * 10000
+	right = right * 10000
 	if left > 0:
 		pi1.write(AIN1, 1)
 		pi1.write(AIN2, 0)
@@ -43,11 +46,8 @@ def motor(left, right):
 		pi1.write(BIN1, 0)
 		pi1.write(BIN1, 0)
 
-	pi1.hardware_PWM(PWMA, 200, left)
-	pi1.hardware_PWM(PWMB, 200, right)
-
-
-
+	pi1.hardware_PWM(PWMA, 200, abs(left))
+	pi1.hardware_PWM(PWMB, 200, abs(right))
 
 try:
 	motor(0, 0)
@@ -77,9 +77,3 @@ try:
 
 except KeyboardInterrupt:
 	print ("done!")
-
-set_motor(pi1, 0, 0, 1, 0.5) # stop (neutral)
-pi1.set_mode(AIN1, pigpio.INPUT)
-pi1.set_mode(AIN2, pigpio.INPUT)
-pi1.set_mode(PWMA,pigpio.INPUT)
-pi1.stop()
