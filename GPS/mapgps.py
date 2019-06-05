@@ -64,9 +64,9 @@ except KeyboardInterrupt:
     pi.bb_serial_read_close(RX)
     pi.stop()
     print("\r\nKeyboard Intruppted, Serial Closed")
-#xcept:
-    #pi.bb_serial_read_close(RX)
-    #pi.stop()
-    #print ("Error, Serial Cloesd")
+except:
+    pi.bb_serial_read_close(RX)
+    pi.stop()
+    print ("Error, Serial Cloesd")
 
 
