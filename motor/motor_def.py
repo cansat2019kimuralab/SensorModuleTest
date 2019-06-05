@@ -51,25 +51,25 @@ def motor(left, right):
 
 try:
 	motor(0, 0)
-	for i in range(4):
+	for i in range(2):
 		motor(50, 50)
 		time.sleep(1)
 		motor(0, 0)
 		time.sleep(1)
 
-	for i in range(4):
+	for i in range(2):
 		motor(-50, -50)
 		time.sleep(1)
 		motor(0, 0)
 		time.sleep(1)
 
-	for i in range(4):
+	for i in range(2):
 		motor(50, -50)
 		time.sleep(1)
 		motor(0, 0)
 		time.sleep(1)
 
-	for i in range(4):
+	for i in range(2):
 		motor(-50, 50)
 		time.sleep(1)
 		motor(0, 0)
