@@ -15,7 +15,7 @@ def bmx055_setup():
 	if(data == 0):
 		i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x83)
 		time.sleep(0.1)
-	
+
 	i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x01)
 	time.sleep(0.1)
 	i2c.write_byte_data(MAG_ADDRESS, 0x4C, 0x00)
@@ -104,10 +104,10 @@ def bmx055():
 if __name__ == '__main__':
 	try:
 		bmx055_setup()
-		
+
 		while 1:
 			bmx055()
 			time.sleep(0.1)
-		
+
 	except KeyboardInterrupt:
 		print()

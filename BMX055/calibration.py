@@ -20,10 +20,13 @@ def g(B, x):
     return ((x[0]/B[0])**2+(x[1]/B[1])**2-1.)
 
 if __name__ == '__main__':
-    f = open("bmx055test.txt", "r")
+    #f = open("bmx055test.txt", "r")
+    f  = open("randomC.txt", "r")
     lines = f.readlines()
-    x_csv = [0.0]
-    y_csv = [0.0]
+    x_csv = []
+    y_csv = []
+    xx_csv = x_csv
+    yy_csv = y_csv
     for line in lines:
         word = line.split()
         x_csv.append(float(word[0]))
@@ -51,12 +54,12 @@ if __name__ == '__main__':
     myoutput.pprint()
 
     ax = plt.subplot(111, aspect='equal')
-    plt.scatter(x_csv, y_csv) # raw data with randomness
-
+    plt.axes().set_aspect('equal', 'datalim')
+    plt.scatter(x_csv, y_csv, c="red")
+    plt.scatter(xx_csv, yy_csv, c="blue")
     ell = Ellipse(xy=(0., 0.), width=2.*myoutput.beta[0], height=2.*myoutput.beta[1], angle=0.0)
     ell.set_facecolor('none')
     ell.set_edgecolor('black')
     ax.add_artist(ell) # fitted curve
     plt.grid()
-    plt.show()
     plt.show()
