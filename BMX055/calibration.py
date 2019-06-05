@@ -1,76 +1,62 @@
-import numpy# as np
-import math
+import numpy as np
+from scipy import odr
+from scipy import optimize
+from matplotlib.patches import Ellipse
+import matplotlib.pyplot as plt
+from scipy.stats import norm
 
-def CircleFitting(x,y):
-    """最小二乗法による円フィッティングをする関数
-        input: x,y 円フィッティングする点群
+def f(B, x):
+    return ((x[0]/B[0])**2+(x[1]/B[1])**2-1.)
 
-        output  cxe 中心x座標
-                cye 中心y座標
-                re  半径
+#Least squares method with scipy.optimize
+def fit_func(parameter,xy):
+    a = parameter[0]
+    b = parameter[1]
+    c = parameter[2]
+    residual = (a*xy[0]+b*xy[1]+c)
+    return residual
 
-        参考
-        一般式による最小二乗法（円の最小二乗法）　画像処理ソリューション
-        http://imagingsolution.blog107.fc2.com/blog-entry-16.html
-    """
-
-    sumx  = sum(x)
-    sumy  = sum(y)
-    sumx2 = sum([ix ** 2 for ix in x])
-    sumy2 = sum([iy ** 2 for iy in y])
-    sumxy = sum([ix * iy for (ix,iy) in zip(x,y)])
-
-    F = np.array([[sumx2,sumxy,sumx],
-                  [sumxy,sumy2,sumy],
-                  [sumx,sumy,len(x)]])
-
-    G = np.array([[-sum([ix ** 3 + ix*iy **2 for (ix,iy) in zip(x,y)])],
-                  [-sum([ix ** 2 *iy + iy **3 for (ix,iy) in zip(x,y)])],
-                  [-sum([ix ** 2 + iy **2 for (ix,iy) in zip(x,y)])]])
-
-    T=np.linalg.inv(F).dot(G)
-
-    cxe=float(T[0]/-2)
-    cye=float(T[1]/-2)
-    re=math.sqrt(cxe**2+cye**2-T[2])
-    #print (cxe,cye,re)
-    return (cxe,cye,re)
+def g(B, x):
+    return ((x[0]/B[0])**2+(x[1]/B[1])**2-1.)
 
 if __name__ == '__main__':
-    '''
-    import matplotlib.pyplot as plt
-    """Unit Test"""
-    #推定する円パラメータ
-    cx=4;   #中心x
-    cy=10;  #中心y
-    r=30;   #半径
+    f = open("bmx055test.txt", "r")
+    lines = f.readlines()
+    x_csv = [0.0]
+    y_csv = [0.0]
+    for line in lines:
+        word = line.split()
+        x_csv.append(float(word[0]))
+        y_csv.append(float(word[1]))
 
-    #円の点群の擬似情報
-    plt.figure()
-    x=range(-10,10);
-    y=[]
-    for xt in x:
-        y.append(cy+math.sqrt(r**2-(xt-cx)**2))
+    for i in range(len(x_csv)):
+        print(str(x_csv[i]) + " " + str(y_csv[i]))
+    print()
+    f.close()
 
-    #円フィッティング
-    (cxe,cye,re)=CircleFitting(x,y)
+    # sub average
+    x_ave=np.average(x_csv)
+    y_ave=np.average(y_csv)
+    x_csv = x_csv-x_ave
+    y_csv = y_csv-y_ave
 
-    #円描画
-    theta=np.arange(0,2*math.pi,0.1)
-    xe=[]
-    ye=[]
-    for itheta in theta:
-        xe.append(re*math.cos(itheta)+cxe)
-        ye.append(re*math.sin(itheta)+cye)
-    xe.append(xe[0])
-    ye.append(ye[0])
+    xy = np.array([x_csv, y_csv])
 
-    plt.plot(x,y,"ob",label="raw data")
-    plt.plot(xe,ye,"-r",label="estimated")
-    plt.plot(cx,cy,"xb",label="center")
-    plt.axis("equal")
-    plt.grid(True)
-    plt.legend()
+    #mdr = odr.Model(f, implicit=True)
+    mdr = odr.Model(g, implicit=True)
+    mydata = odr.Data(xy,y=1)
+    #myodr = odr.ODR(mydata, mdr, beta0=[1., 2.])
+    myodr = odr.ODR(mydata, mdr, beta0=[1., 2.,3.,4.])
+    myoutput = myodr.run()
+    myoutput.pprint()
+
+    ax = plt.subplot(111, aspect='equal')
+    plt.scatter(x_csv, y_csv) # raw data with randomness
+
+    ell = Ellipse(xy=(0., 0.), width=2.*myoutput.beta[0], height=2.*myoutput.beta[1], angle=0.0)
+    ell.set_facecolor('none')
+    ell.set_edgecolor('black')
+    ax.add_artist(ell) # fitted curve
+    plt.grid()
     plt.show()
-    '''
-    pass
+    plt.show()
