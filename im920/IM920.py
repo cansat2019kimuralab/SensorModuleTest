@@ -56,7 +56,7 @@ mybaudrate:ボーレート
 '''
 def Rdid(mybaudrate):
     com = setSerial(mybaudrate)
-    print(com)
+    #print(com)
     com.flushInput()
     print("b")
     com.write(b'RDID' + b'\r\n')
@@ -64,7 +64,7 @@ def Rdid(mybaudrate):
     com.flushOutput()
     print("d")
     #print(dir(com))
-    print('固有ID:' + com.readline().strip())
+    print('固有ID:' + str(com.readline().strip()))
     print("e")
     com.close()
 
@@ -185,7 +185,7 @@ def Rdrs(mybaudrate):
     com.flushInput()
     com.write(b'RDRS' + b'\r\n')
     com.flushOutput()
-    print('信号強度:' + com.readline().strip())
+    print('信号強度:' + str(com.readline().strip()))
     #com.readline()
     com.close()
 
