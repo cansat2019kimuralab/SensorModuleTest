@@ -16,4 +16,3 @@ com.write(b'RDID' + b'\r\n')
 com.flushOutput()
 print('固有ID:' + str(com.readline().strip()))
 com.close()
-
