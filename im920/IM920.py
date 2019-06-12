@@ -77,7 +77,7 @@ def Rrid(mybaudrate):
     com.flushInput()
     com.write(b'RRID' + b'\r\n')
     com.flushOutput()
-    print('受信ID:' + com.readline().strip())
+    print('受信ID:' + str(com.readline().strip()))
     com.close()
 
 '''
@@ -343,6 +343,7 @@ def Reception(mybaudrate):
 
     text = ""
     cngtext = ""
+
     try:
         text = com.readline().decode('utf-8').strip() #受信と空白の削除
         com.close()
@@ -383,24 +384,26 @@ def Rprm(mybaudrate):
     print(com.readline().strip())
     #com.readline()
     com.close()
+
+
 if __name__ == '__main__':
     #ペアリング
     #Srid(19200,'5187')
- 
+
     #削除
     #Erid(19200)
- 
+
     #文字列送信
     Send(19200, 'Hello')
- 
+
     #文字列受信
     #print Reception(19200)
- 
+
     #中継機化
     #Repeater(19200)
- 
+
     #固有ID
-    Rdid(19200)
- 
+    #Rdid(19200)
+
     #ボーレート設定
     #Sbrt(19200, '4')
