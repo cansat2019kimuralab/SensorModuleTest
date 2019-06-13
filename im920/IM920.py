@@ -58,14 +58,14 @@ def Rdid(mybaudrate):
     com = setSerial(mybaudrate)
     #print(com)
     com.flushInput()
-    print("b")
+    #print("b")
     com.write(b'RDID' + b'\r\n')
-    print("c")
+    #print("c")
     com.flushOutput()
-    print("d")
+    #print("d")
     #print(dir(com))
     print('固有ID:' + str(com.readline().strip()))
-    print("e")
+    #print("e")
     com.close()
 
 '''
@@ -319,19 +319,12 @@ mybaudrate:ボーレート
 args:送信したい文字列 (数字の場合も文字列型にすること)
 '''
 def Send(mybaudrate, args):
-    print ('a')
-    com = setSerial(mybaudrate)
-    print ('b')
-    com.flushInput()
-    print ('c')
-    com.write(b'TXDA' + binascii.b2a_hex(args.encode('utf-8')) + b'\r\n')
-    print ('d')
-    com.flushOutput()
-    print ('e')
-    #com.readline()
-    print ('f')
-    com.close()
-
+	com = setSerial(mybaudrate)
+	com.flushInput()
+	com.write(b'TXDA' + binascii.b2a_hex(args.encode('utf-8')) + b'\r\n')
+	com.readline()
+	com.flushOutput()
+	com.close()
 '''
 受信
 アスキーコードから文字列に変換したものを返す
@@ -387,23 +380,7 @@ def Rprm(mybaudrate):
 
 
 if __name__ == '__main__':
-    #ペアリング
-    #Srid(19200,'5187')
-
-    #削除
-    #Erid(19200)
-
-    #文字列送信
-    Send(19200, 'Hello')
-
-    #文字列受信
-    #print Reception(19200)
-
-    #中継機化
-    #Repeater(19200)
-
-    #固有ID
-    #Rdid(19200)
-
-    #ボーレート設定
-    #Sbrt(19200, '4')
+	#文字列送信
+	Send(19200, 'Hello')
+	#固有ID
+	#Rdid(19200)
