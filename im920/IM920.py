@@ -1,23 +1,8 @@
-#!/usr/bin/env python
-# -*- coding: UTF-8 -*-
-'''
-パッケージpyserialをインストールすること
-pytho2.x系で動作(python3.*系も動作検証済み)
-Creater：Kaname Takano
-'''
-import serial
 import binascii
 import signal
 import sys
 import platform
 
-#platformの切り替え
-'''
-if platform.system() == 'Windows':  #windows用
-    portnumber = 'COM4'
-elif platform.system() == 'Linux': #Linux用
-    portnumber = '/dev/ttyAMA0'
-'''
 portnumber = '/dev/ttyS0'
 
 '''
@@ -27,12 +12,13 @@ def signal_handler(signal, frame):
     print('exit')
     sys.exit()
 
+
 '''
 serial.Serialの設定
 mybaudrate:ボーレート
 '''
 #mybaudrate=19200
-def setSerial(mybaudrate):
+def setSerial(mybaudrate = 19200):
     com = serial.Serial(
         port     = portnumber,
         baudrate = mybaudrate,
@@ -50,11 +36,12 @@ def setSerial(mybaudrate):
     com.flushOutput()
     return com
 
+
 '''
 固有IDの読み出し
 mybaudrate:ボーレート
 '''
-def Rdid(mybaudrate):
+def Rdid(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     #print(com)
     com.flushInput()
@@ -68,17 +55,19 @@ def Rdid(mybaudrate):
     #print("e")
     com.close()
 
+
 '''
 受信IDの読み出し
 mybaudrate:ボーレート
 '''
-def Rrid(mybaudrate):
+def Rrid(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'RRID' + b'\r\n')
     com.flushOutput()
     print('受信ID:' + str(com.readline().strip()))
     com.close()
+
 
 '''
 無線通信チャンネルの設定
@@ -93,7 +82,7 @@ setch:セットするチャンネル(文字列でもってくること)
     07 921.8MHz    15 923.4MHz
     08 922.0MHz
 '''
-def Stch(mybaudrate, setch):
+def Stch(setch, mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'ENWR' + b'\r\n')
@@ -107,11 +96,12 @@ def Stch(mybaudrate, setch):
     com.readline()
     com.close()
 
+
 '''
 無線通信チャンネルの読み出し
 mybaudrate:現在のボーレート
 '''
-def Rdch(mybaudrate):
+def Rdch(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'RDCH' + b'\r\n')
@@ -150,6 +140,7 @@ def Rdch(mybaudrate):
     #com.readline()
     com.close()
 
+
 '''
 ボーレート(シリアル通信速度)の設定
 mybaudrate:現在のボーレート
@@ -175,12 +166,13 @@ def Sbrt(mybaudrate, setbaudrate):
     com.readline()
     com.close()
 
+
 '''
 RSSI値(現在の信号強度レベル)読み出し
 mybaudrate:現在のボーレート
     ASCII文字(0~9,A~F)2文字で出力
 '''
-def Rdrs(mybaudrate):
+def Rdrs(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'RDRS' + b'\r\n')
@@ -188,6 +180,7 @@ def Rdrs(mybaudrate):
     print('信号強度:' + str(com.readline().strip()))
     #com.readline()
     com.close()
+
 
 '''
 送信出力の設定
@@ -197,7 +190,7 @@ setoutput:セットする送信出力(文字列でもってくること)
     2   0dBm(1mW)
     3  10dBm(10mW)
 '''
-def Stpo(mybaudrate, setoutput):
+def Stpo(setoutput, mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'ENWR' + b'\r\n')
@@ -211,6 +204,7 @@ def Stpo(mybaudrate, setoutput):
     com.readline()
     com.close()
 
+
 '''
 送信出力読み出し
 mybaudrate:現在のボーレート
@@ -218,7 +212,7 @@ mybaudrate:現在のボーレート
     2   0dBm(1mW)
     3  10dBm(10mW)
 '''
-def Rdpo(mybaudrate):
+def Rdpo(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'RDPO' + b'\r\n')
@@ -233,6 +227,7 @@ def Rdpo(mybaudrate):
     #com.readline()
     com.close()
 
+
 '''
 無線通信速度の設定
 mybaudrate:現在のボーレート
@@ -240,7 +235,7 @@ setspeed:セットする無線通信速度(文字列でもってくること)
     1 高速通信モード(無線通信速度 50kbps)
     2 長距離モード(無線通信速度 1.25kbps)
 '''
-def Strt(mybaudrate, setspeed):
+def Strt(setspeed, mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'ENWR' + b'\r\n')
@@ -254,13 +249,14 @@ def Strt(mybaudrate, setspeed):
     com.readline()
     com.close()
 
+
 '''
 無線通信速度の読み出し
 mybaudrate:現在のボーレート
     1 高速通信モード(無線通信速度 50kbps)
     2 長距離モード(無線通信速度 1.25kbps)
 '''
-def Rdrt(mybaudrate):
+def Rdrt(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'RDRT' + b'\r\n')
@@ -273,14 +269,13 @@ def Rdrt(mybaudrate):
     #com.readline()
     com.close()
 
+
 '''
 ペアリング
 mybaudrate:ボーレート
 args:ペアリングしたいID(文字列にすること)
 '''
-args='3156'
-mybaudrate=19200
-def Srid(mybaudrate, args):
+def Srid(args, mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'ENWR' + b'\r\n')
@@ -294,12 +289,13 @@ def Srid(mybaudrate, args):
     com.readline()
     com.close()
 
+
 '''
 ペアリングの削除
 全て削除されるため注意!
 mybaudrate:ボーレート
 '''
-def Erid(mybaudrate):
+def Erid(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'ENWR' + b'\r\n')
@@ -313,24 +309,27 @@ def Erid(mybaudrate):
     com.readline()
     com.close()
 
+
 '''
 送信
 mybaudrate:ボーレート
 args:送信したい文字列 (数字の場合も文字列型にすること)
 '''
-def Send(mybaudrate, args):
+def Send(args, mybaudrate = 19200):
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'TXDA' + binascii.b2a_hex(args.encode('utf-8')) + b'\r\n')
 	com.readline()
 	com.flushOutput()
 	com.close()
+
+
 '''
 受信
 アスキーコードから文字列に変換したものを返す
 mybaudrate:ボーレート
 '''
-def Reception(mybaudrate):
+def Reception(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
 
@@ -356,7 +355,7 @@ def Reception(mybaudrate):
 中継機化
 mybaudrate:ボーレート
 '''
-def Repeater(mybaudrate):
+def Repeater(mybaudrate = 19200):
     signal.signal(signal.SIGINT, signal_handler)
 
     while True:
@@ -365,11 +364,12 @@ def Repeater(mybaudrate):
             print("input data:", data)
             Send(19200, data)
 
+
 '''
 パラメータ一括読み出し
 mybaudrate:現在のボーレート
 '''
-def Rprm(mybaudrate):
+def Rprm(mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'RPRM' + b'\r\n')
@@ -380,7 +380,5 @@ def Rprm(mybaudrate):
 
 
 if __name__ == '__main__':
-	#文字列送信
-	Send(19200, 'Hello')
-	#固有ID
-	#Rdid(19200)
+	Send('Hello')  #文字列送信
+	#Rdid()        #固有ID
