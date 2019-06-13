@@ -152,7 +152,7 @@ setbaudrate:セットするボーレート(文字列でもってくること)
     4 19200bps
     5 38400bps
 '''
-def Sbrt(mybaudrate, setbaudrate):
+def Sbrt(setbaudrate, mybaudrate = 19200):
     com = setSerial(mybaudrate)
     com.flushInput()
     com.write(b'ENWR' + b'\r\n')
