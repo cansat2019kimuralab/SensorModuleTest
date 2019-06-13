@@ -10,10 +10,10 @@ def setGPS():
 	pi.set_mode(RX, pigpio.INPUT)
 	pi.bb_serial_read_open(RX, 9600, 8)
 
-def readGPS():]
-	utctime = 0
-	Lat = 0
-	Lon = 0
+def readGPS():
+	utctime = 0.0
+	Lat = 0.0
+	Lon = 0.0
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
 		gpsData = data.decode('utf-8', 'replace')
@@ -65,7 +65,6 @@ if __name__ == '__main__':
 				print(str(utctime) + "  " + str(lat) + " " + str(lon))
 
 			time.sleep(1)
-
 	except KeyboardInterrupt:
 		pi.bb_serial_read_close(RX)
 		pi.stop()
