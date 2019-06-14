@@ -123,12 +123,12 @@ class Illumi:
 def readLux():
     sensor1  = Illumi(0x39,1)
     sensor1.powerOn()
-    sensor1.setHighGain()
+#    sensor1.setHighGain()
     sensor1.setIntegrationTime('default')
 
     sensor2  = Illumi(0x29,1)
     sensor2.powerOn()
-    sensor2.setHighGain()
+#    sensor2.setHighGain()
     sensor2.setIntegrationTime('default')
 
     while True:
