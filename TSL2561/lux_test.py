@@ -120,7 +120,7 @@ class Illumi:
         return lux
 
 
-if __name__ == "__main__":
+def readLux():
     sensor1  = Illumi(0x39,1)
     sensor1.powerOn()
     # sensor1.setHighGain()
@@ -135,3 +135,9 @@ if __name__ == "__main__":
         print "Lux1 : " + str(sensor1.getLux())
         print "Lux2 : " + str(sensor2.getLux())
         time.sleep(1.0)
+
+if __name__ == "__main__":
+    try:
+        readLux()
+    except KeyboardInterrupt:
+        pass
