@@ -19,7 +19,7 @@ def writeReg(reg_address, data):
 	'''
 	bus.write_byte_data(i2c_address,reg_address,data)
 
-def get_calib_param():
+def bme280_calib_param():
 	'''
 	'''
 	calib = []
@@ -158,7 +158,7 @@ def bme280_read():
 
 if __name__ == '__main__':
 	bme280_setup()
-	get_calib_param()
+	bme280_calib_param()
 	try:
 		while 1:
 			bmedata = bme280_read()
