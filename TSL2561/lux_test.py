@@ -8,7 +8,7 @@ import time
 # I2Cでデータを取得するクラス
 # https://strawberry-linux.com/catalog/items?code=12561
 # 2016-05-03 Boyaki Machine
-class SL_TSL2561:
+class Illumi:
     def __init__(self, address, channel):
         self.address    = address
         self.channel    = channel
@@ -31,13 +31,13 @@ class SL_TSL2561:
     # High Gainにセットする(16倍の感度？)
     def setHighGain(self):
         # High Gainにするとうまくrawデータが取れないことがある。
-        # 要原因調査 ( 5047固定値になる )    
+        # 要原因調査 ( 5047固定値になる )
         self.gain   = 0x10
         data        = self.integrationTime | self.gain
         self.bus.write_i2c_block_data(self.address, 0x81, [data])
         self.calcScale()
 
-    # Low Gain(default) にセットする 
+    # Low Gain(default) にセットする
     def setLowGain(self):
         self.gain   = 0x00
         data        = self.integrationTime | self.gain
@@ -99,7 +99,7 @@ class SL_TSL2561:
         VLRD = raw[0] * self.scale
         IRRD = raw[1] * self.scale
 
-        # 0の除算にならないように               
+        # 0の除算にならないように
         if (float(VLRD) == 0):
             ratio = 9999
         else:
@@ -117,14 +117,27 @@ class SL_TSL2561:
         elif (ratio > 1.3):
             lux = 0
 
-        return lux 
+        return lux
 
+
+def readLux():
+    sensor1  = Illumi(0x39,1)
+    sensor1.powerOn()
+#    sensor1.setHighGain()
+    sensor1.setIntegrationTime('default')
+
+    sensor2  = Illumi(0x29,1)
+    sensor2.powerOn()
+#    sensor2.setHighGain()
+    sensor2.setIntegrationTime('default')
+
+    while True:
+        print "Lux1 : " + str(sensor1.getLux())
+        print "Lux2 : " + str(sensor2.getLux())
+        time.sleep(1.0)
 
 if __name__ == "__main__":
-    sensor  = SL_TSL2561(0x39,1) 
-    sensor.powerOn()
-    # sensor.setHighGain()
-    sensor.setIntegrationTime('default')
-    while True:
-        print "Lux : " + str(sensor.getLux())
-        time.sleep(1.0)
+    try:
+        readLux()
+    except KeyboardInterrupt:
+        pass
