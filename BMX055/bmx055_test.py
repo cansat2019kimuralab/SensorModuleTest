@@ -86,28 +86,32 @@ def mag_dataRead():
 
 	return value
 
-
-def bmx055():
+'''
+全データ読み込み
+"""
+def bmx055_read():
 	accx, accy, accz = acc_dataRead()
 	gyrx, gyry, gyrz = gyr_dataRead()
 	magx, magy, magz = mag_dataRead()
+
 	#print("[%f, %f, %f] " % (accx, accy, accz), end="")
 	#print("[%f, %f, %f] " % (gyrx, gyry, gyrz), end="")
 	#print("[%f, %f, %f] " % (magx, magy, magz), end="")
 	#print()
-	path = 'bmx055test.txt'
-	with open(path, mode='a') as f:
-		f.write("%f, %f, %f " % (magx, magy, magz))
-		f.write("\n")
 
+	value = [accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz]
+	return 	value
 
 if __name__ == '__main__':
 	try:
 		bmx055_setup()
 
 		while 1:
-			bmx055()
-			time.sleep(0.1)
+			bmxData = bmx055_read()
+			for i in range(len(bmxData)):
+				print(str(bmxData[i]) + " ", end="")
+			print()
+			time.sleep(1)
 
 	except KeyboardInterrupt:
 		print()
