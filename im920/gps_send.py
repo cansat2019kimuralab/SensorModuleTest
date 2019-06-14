@@ -1,4 +1,5 @@
 import sys
+sys.path.append('/home/pi/git/kimuralab/SensorModuleTest/GPS')
 import time
 import difflib
 import pigpio
@@ -12,30 +13,34 @@ if __name__ == '__main__':
 		gps.openGPS()
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
-			utctime,lat,lon = gps.readGPS()
-			
-			if(utctime == -1):
-				if(lat == -1):
+			value = gps.readGPS()
+			utctime = value[0]
+			lat = value[1]
+			lon = value[2]
+			if utctime == -1:
+				if lat == -1:
 					print("Reading GPS Error")
-					IM920.Send("E")
+					#IM920.Send("E")
 				else:
 					print("Status V")
-					IM920.Send("V")
+					#IM920.Send("V")
 			else:
 				print(str(utctime) + "  " + str(lat) + " " + str(lon))
-				IM920.Send(str(utctime))
-				IM920.Send(str(lat))
-				IM920.Send(str(lon))
+				IM920.Send('u'+str(utctime))
+				IM920.Send('a'+str(lat))
+				IM920.Send('o'+str(lon))
 			
 			time.sleep(1)
-			
 	except KeyboardInterrupt:
 		gps.closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
-	except:
+	except Exception as e:
 		gps.closeGPS()
 		print("\r\nError, Serial Closed")
-
+		print()
+		print('type: ' + str(type(e)))
+		print('args: ' + str(e.args))
+		print(e)
 
 '''	
 try:
@@ -46,7 +51,7 @@ try:
 	
 	print ("DATA - SOFTWARE SERIAL:")
 	while 1:
-		utctime,lat,lon = gps.readGPS()
+		 = gps.readGPS()
 		if(utctime == -1):
 			if(lat == -1):
 				print("Reading GPS Error")
