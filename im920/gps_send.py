@@ -6,14 +6,14 @@ import pigpio
 import serial
 import binascii
 import IM920
-import gps
+import GPS
 
 if __name__ == '__main__':
 	try:
-		gps.openGPS()
+		GPS.openGPS()
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
-			utctime, lat, lon = gps.readGPS()
+			utctime, lat, lon = GPS.readGPS()
 			if utctime == -1.0:
 				if lat == -1.0:
 					print("Reading GPS Error")
@@ -29,10 +29,10 @@ if __name__ == '__main__':
 			
 			time.sleep(1)
 	except KeyboardInterrupt:
-		gps.closeGPS()
+		GPS.closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
 	except Exception as e:
-		gps.closeGPS()
+		GPS.closeGPS()
 		print("\r\nError, Serial Closed")
 		print()
 		print(e.message)
