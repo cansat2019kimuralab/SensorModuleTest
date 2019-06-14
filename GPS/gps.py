@@ -70,10 +70,8 @@ if __name__ == '__main__':
 
 			time.sleep(1)
 	except KeyboardInterrupt:
-		pi.bb_serial_read_close(RX)
-		pi.stop()
+		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
 	except:
-		pi.bb_serial_read_close(RX)
-		pi.stop()
+		closeGPS()
 		print ("\r\nError, Serial Cloesd")
