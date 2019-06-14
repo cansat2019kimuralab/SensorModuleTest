@@ -5,14 +5,14 @@ import pigpio
 import serial
 import binascii
 import IM920
-
+import gps
 RX=26
 	
 try:
-	pi = pigpio.pi()
-	pi.set_mode(RX, pigpio.INPUT)
-	pi.bb_serial_read_open(RX, 9600, 8)
-
+	*pi = pigpio.pi()
+	*pi.set_mode(RX, pigpio.INPUT)
+	*pi.bb_serial_read_open(RX, 9600, 8)
+	gps.openGPS()
 	
 	print ("DATA - SOFTWARE SERIAL:")
 	while 1:
@@ -30,7 +30,7 @@ try:
 				#Status V
 				print("Status V ", end="")
 				print()
-				IM920.Send(19200,'V')
+				IM920.Send('V')
 			elif(gpsData[rmc:rmc+20].find("A") != -1):
 				#Status A
 				gprmc = gpsData[rmc+7:]
@@ -42,8 +42,8 @@ try:
 				print("Time:" + str(utctime) + " ", end="")
 				print("Lat:" + str(Lat) + " ", end="")
 				print("Lon:" + str(Lon) + " ")#, end="")
-				IM920.Send(19200, str(Lat))
-				IM920.Send(19200, str(Lon))
+				IM920.Send(str(Lat))
+				IM920.Send(str(Lon))
 				'''
 				gpgga = gpsData[gga:gga+60]
 				hight = gpgga.find(",M,")
