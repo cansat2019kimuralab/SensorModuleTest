@@ -4,9 +4,9 @@ import difflib
 import pigpio
 
 RX=26
+pi = pigpio.pi()
 
-def setGPS():
-	pi = pigpio.pi()
+def oepnGPS():
 	pi.set_mode(RX, pigpio.INPUT)
 	pi.bb_serial_read_open(RX, 9600, 8)
 
@@ -50,9 +50,13 @@ def readGPS():
 
 		return utctime, Lat, Lon
 
+def closeGPS():
+	pi.bb_serial_read_close(RX)
+	pi.stop()
+
 if __name__ == '__main__':
 	try:
-		setGPS()
+		openGPS()
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
 			utctime, lat, lon = readGPS
