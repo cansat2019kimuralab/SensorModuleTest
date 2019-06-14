@@ -8,7 +8,7 @@ import time
 # I2Cでデータを取得するクラス
 # https://strawberry-linux.com/catalog/items?code=12561
 # 2016-05-03 Boyaki Machine
-class SL_TSL2561:
+class Illumi:
     def __init__(self, address, channel):
         self.address    = address
         self.channel    = channel
@@ -121,10 +121,10 @@ class SL_TSL2561:
 
 
 if __name__ == "__main__":
-    sensor  = SL_TSL2561(0x39,1) 
-    sensor.powerOn()
+    sensor1  = Illumi(0x29,1) 
+    sensor1.powerOn()
     # sensor.setHighGain()
-    sensor.setIntegrationTime('default')
+    sensor1.setIntegrationTime('default')
     while True:
-        print "Lux : " + str(sensor.getLux())
+        print "Lux1 : " + str(sensor1.getLux())
         time.sleep(1.0)
