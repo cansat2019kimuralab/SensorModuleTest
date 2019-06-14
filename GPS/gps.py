@@ -6,7 +6,7 @@ import pigpio
 RX=26
 pi = pigpio.pi()
 
-def oepnGPS():
+def openGPS():
 	pi.set_mode(RX, pigpio.INPUT)
 	pi.bb_serial_read_open(RX, 9600, 8)
 
