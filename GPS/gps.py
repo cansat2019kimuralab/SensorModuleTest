@@ -4,9 +4,9 @@ import difflib
 import pigpio
 
 RX=26
+pi = pigpio.pi()
 
-def setGPS():
-	pi = pigpio.pi()
+def openGPS():
 	pi.set_mode(RX, pigpio.INPUT)
 	pi.bb_serial_read_open(RX, 9600, 8)
 
@@ -50,9 +50,13 @@ def readGPS():
 
 		return utctime, Lat, Lon
 
+def closeGPS():
+	pi.bb_serial_read_close(RX)
+	pi.stop()
+
 if __name__ == '__main__':
 	try:
-		setGPS()
+		openGPS()
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
 			utctime, lat, lon = readGPS
@@ -66,10 +70,8 @@ if __name__ == '__main__':
 
 			time.sleep(1)
 	except KeyboardInterrupt:
-		pi.bb_serial_read_close(RX)
-		pi.stop()
+		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
 	except:
-		pi.bb_serial_read_close(RX)
-		pi.stop()
+		closeGPS()
 		print ("\r\nError, Serial Cloesd")
