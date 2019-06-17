@@ -3,7 +3,7 @@ import time
 import difflib
 import pigpio
 
-RX=26
+RX=261
 pi = pigpio.pi()
 
 def openGPS():
