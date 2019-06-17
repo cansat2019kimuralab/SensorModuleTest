@@ -6,6 +6,6 @@ def CAPTURE(count):
         camera.hflip = True
         camera.vflip = True
         camera.resoltion = (640,480)
-        camera.start_preview()
+        #camera.start_preview()
         time.sleep(2)
-        camera.capture('photo'+'str(count)'+'.jpg')
+        camera.capture('photo'+str(count)+'.jpg')
