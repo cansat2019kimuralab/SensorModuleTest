@@ -132,8 +132,8 @@ def readLux():
     sensor2.setIntegrationTime('default')
 
     while True:
-        print "Lux1 : " + str(sensor1.getLux())
-        print "Lux2 : " + str(sensor2.getLux())
+        print("Lux1 : " + str(sensor1.getLux()))
+        print("Lux2 : " + str(sensor2.getLux()))
         time.sleep(1.0)
 
 if __name__ == "__main__":
