@@ -138,9 +138,11 @@ def readLux():
 
 if __name__ == "__main__":
     try:
-        lux = readLux()
-        for i in range(len(lux)):
-            print(str(lux(i) + " ", end="")
-        print()
+	while 1:
+            lux = readLux()
+            for i in range(len(lux)):
+            	print(str(lux[i]) + " ", end="")
+            print()
+	    time.sleep(1)
     except KeyboardInterrupt:
         pass
