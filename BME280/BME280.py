@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #coding: utf-8
 
 from smbus import SMBus
