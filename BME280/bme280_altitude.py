@@ -161,9 +161,12 @@ if __name__ == '__main__':
 	get_calib_param()
 	try:
 		while 1:
+			temp,pres,hum,alt = bme280_read()
 			bmedata = bme280_read()
 			for i in range(len(bmedata)):
 				print(str(bmedata) + " ", end="")
+			
+		
 			time.sleep(1)
 	except KeyboardInterrupt:
 		print("\r\n")
