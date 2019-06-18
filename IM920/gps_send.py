@@ -13,7 +13,7 @@ if __name__ == '__main__':
 		GPS.openGPS()
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
-			utctime, lat, lon = GPS.readGPS()
+			utctime,lat,lon,shight,gHight = GPS.readGPS()
 			if utctime == -1.0:
 				if lat == -1.0:
 					print("Reading GPS Error")
@@ -23,9 +23,12 @@ if __name__ == '__main__':
 					IM920.Send("V")
 			else:
 				print(str(utctime) + "  " + str(lat) + " " + str(lon))
+				print(str(shight)+str(ghight))
 				IM920.Send('u'+str(utctime))
 				IM920.Send('a'+str(lat))
 				IM920.Send('o'+str(lon))
+				IM920.Send('s'+str(shight))
+				IM920.Send('g'+str(ghight))
 
 			time.sleep(1)
 	except KeyboardInterrupt:
