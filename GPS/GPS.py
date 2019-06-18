@@ -42,15 +42,18 @@ def readGPS():
 			Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 			Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 
-			gpgga = gpsData[gga:gga+60]
-			hight = gpgga.find(",M,")
-			print(gpgga)
-			print("======")
-			#print(gpgga[hight-4:hight-0])
-			sHight = float(gpgga[hight-4:hight-0])
-			#print(gpgga[hight+3:hight+4])
-			gHight = round(float(gpgga[hight+3:hight+4]))
+			gpgga = gpsData[gga:gga+72]
+	
+			#print(gpgga)
 			
+
+			
+			
+			hight=gpgga.split(",")
+			sHight=hight[9]
+			gHight=hight[11]
+			#print(sHight)
+			#print(gHight)
 		else:
 			#No Status Data
 			utctime = -1.0
