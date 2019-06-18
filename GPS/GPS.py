@@ -18,6 +18,7 @@ def readGPS():
 	sHight=0.0
 	gHight=0.0
 	value = [0.0, 0.0, 0.0, 0.0, 0.0]
+	
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
 		gpsData = data.decode('utf-8', 'replace')
@@ -35,25 +36,27 @@ def readGPS():
 			Lon = 0.0
 		elif(gpsData[rmc:rmc+20].find("A") != -1):
 			#Status A
-			#gprmc = gpsData[rmc+7:]
-			utctime = gpsData[rmc+7:rmc+17]
-			lat = gpsData[rmc+20:rmc+29]
-			lon = gpsData[rmc+32:rmc+42]
-			Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
-			Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+			gprmc = gpsData[rmc:rmc+72].split(",")
+			gpgga = gpsData[gga:gga+72].split(",")
 
-			gpgga = gpsData[gga:gga+72]
-	
-			#print(gpgga)
-			
+			if len(gprmc) >= 5:
+				utctime = gprmc[1]
+				lat = gprmc[3]
+				lon = gprmc[5]
+				Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
+				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+			elif len(gpgga) >= 4:
+				utctime = gpgga[0]
+				lat = gpgga[2]
+				lon = gpgga[4]
+				Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
+				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+			else:
+				pass
 
-			
-			
-			hight=gpgga.split(",")
-			sHight=hight[9]
-			gHight=hight[11]
-			#print(sHight)
-			#print(gHight)
+			if len(gpgga) >= 11:
+				sHight=gpgga[9]
+				gHight=gpgga[11]
 		else:
 			#No Status Data
 			utctime = -1.0
@@ -79,9 +82,12 @@ if __name__ == '__main__':
 				else:
 					print("Status V")
 			else:
-				print(str(utctime) + "  " + str(lat) + " " + str(lon))
-				print(str(sHight))
-				print(str(gHight))
+				print(str(utctime) + "  ", end ="")
+				print(str(lat) + " ", end ="")
+				print(str(lon) + " ", end ="")
+				print(str(sHight) + " ", end="")
+				print(str(gHight), end="")
+				print()
 				
 			time.sleep(1)
 	except KeyboardInterrupt:
