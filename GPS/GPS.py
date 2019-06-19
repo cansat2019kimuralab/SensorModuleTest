@@ -12,11 +12,11 @@ def openGPS():
 	pi.bb_serial_read_open(RX, 9600, 8)
 
 def readGPS():
-	utctime = -1.0
+	utc = -1.0
 	Lat = -1.0
 	Lon = 0.0
-	sHight=0.0
-	gHight=0.0
+	sHeight=0.0
+	gHeight=0.0
 	value = [0.0, 0.0, 0.0, 0.0, 0.0]
 	
 	(count, data) = pi.bb_serial_read(RX)
@@ -31,7 +31,6 @@ def readGPS():
 		#vtg = gpsData.find('$GPVTGM')
 		if(gpsData[rmc:rmc+20].find("V") != -1):	#Checking GPS Status
 			#Status V
-			utctime = -1.0
 			Lat = 0.0
 			Lon = 0.0
 		elif(gpsData[rmc:rmc+20].find("A") != -1):
@@ -39,31 +38,41 @@ def readGPS():
 			gprmc = gpsData[rmc:rmc+72].split(",")
 			gpgga = gpsData[gga:gga+72].split(",")
 
+			#Read Lat and Lon
 			if len(gprmc) >= 5:
-				utctime = gprmc[1]
+				utc = gprmc[1]
 				lat = gprmc[3]
 				lon = gprmc[5]
 				Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+				if(gprmc[4] == "S"):
+					Lat = Lat * -1
+				if(gprmc[6] == "W"):
+					Lon = Lon * -1
 			elif len(gpgga) >= 4:
-				utctime = gpgga[0]
+				utc = gpgga[1]
 				lat = gpgga[2]
 				lon = gpgga[4]
 				Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+				if(gpgga[3] == "S"):
+					Lat = Lat * -1
+				if(gpgga[5] == "W"):
+					Lon = Lon * -1
 			else:
 				pass
 
+			#Read Height
 			if len(gpgga) >= 11:
-				sHight=gpgga[9]
-				gHight=gpgga[11]
+				sHeight=gpgga[9]
+				gHeight=gpgga[11]
 		else:
 			#No Status Data
-			utctime = -1.0
+			utc = -1.0
 			Lat = -1.0
 			Lon = 0.0
 		
-	value = [utctime, Lat, Lon, sHight, gHight]
+	value = [utc, Lat, Lon, sHeight, gHeight]
 	return value
 
 def closeGPS():
@@ -75,18 +84,18 @@ if __name__ == '__main__':
 		openGPS()
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
-			utctime,lat,lon,sHight,gHight = readGPS()
-			if(utctime == -1):
+			utc,lat,lon,sHeight,gHeight = readGPS()
+			if(utc == -1):
 				if(lat == -1):
 					print("Reading GPS Error")
 				else:
 					print("Status V")
 			else:
-				print(str(utctime) + "  ", end ="")
+				print(str(utc) + "  ", end ="")
 				print(str(lat) + " ", end ="")
 				print(str(lon) + " ", end ="")
-				print(str(sHight) + " ", end="")
-				print(str(gHight), end="")
+				print(str(sHeight) + " ", end="")
+				print(str(gHeight), end="")
 				print()
 				
 			time.sleep(1)
