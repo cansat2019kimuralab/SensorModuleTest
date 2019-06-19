@@ -114,6 +114,9 @@ def bmx055_read():
 	#print()
 
 	value = [accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz]
+	for i in len(range(value)):
+		value[i] = round(value[i], 4)
+
 	return 	value
 
 if __name__ == '__main__':
