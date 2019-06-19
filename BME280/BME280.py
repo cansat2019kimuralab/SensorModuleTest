@@ -126,7 +126,7 @@ def bme280_setup():
 	mode   = 3			#Normal mode
 	t_sb   = 5			#Tstandby 1000ms
 	filter = 0			#Filter off
-	spi3w_en = 0			#3-wire SPI Disable
+	spi3w_en = 0		#3-wire SPI Disable
 
 	ctrl_meas_reg = (osrs_t << 5) | (osrs_p << 2) | mode
 	config_reg    = (t_sb << 5) | (filter << 2) | spi3w_en

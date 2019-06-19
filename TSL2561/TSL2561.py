@@ -1,11 +1,9 @@
+# -*- coding: utf-8 -*-
+
 import smbus
 import time
 
 class Illumi:
-    # Strawberry Linux社の「TSL2561 照度センサ・モジュール」から
-    # I2Cでデータを取得するクラス
-    # https://strawberry-linux.com/catalog/items?code=12561
-    # 2016-05-03 Boyaki Machine
     def __init__(self, address, channel):
         self.address    = address
         self.channel    = channel

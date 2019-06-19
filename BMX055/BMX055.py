@@ -114,6 +114,8 @@ def bmx055_read():
 	#print()
 
 	value = [accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz]
+
+	#数値丸め
 	for i in range(len(value)):
 		value[i] = round(value[i], 4)
 
@@ -131,3 +133,6 @@ if __name__ == '__main__':
 
 	except KeyboardInterrupt:
 		print()
+	except Exception as e:
+		print()
+		print(e.message)
