@@ -164,7 +164,8 @@ if __name__ == '__main__':
 		while 1:
 			bmedata = bme280_read()
 			for i in range(len(bmedata)):
-				print(str(bmedata) + " ", end="")
+				print(str(bmedata[i]) + " ", end="")
+			print()
 			time.sleep(1)
 	except KeyboardInterrupt:
 		print("\r\n")
