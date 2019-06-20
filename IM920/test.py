@@ -22,7 +22,7 @@ pi.write(22,0)
 img = cv2.imread("/home/pi/git/kimuralab/SensorModuleTest/Camera/photo1.jpg",0)
 byte = convertIMG2BYTES.IMGtoBYTES(img)
 
-for i in range(0,len(byte)):
-	IM920.IMSend(byte)
+for i in range(0,len(byte),2):
+	IM920.IMSend(byte[i:i+1])
 
 #convertIMG2BYTES.BYTEStoIMG(st)
