@@ -307,6 +307,21 @@ def Send(args, mybaudrate = 19200):
 	com.flushOutput()
 	com.close()
 
+	
+def IMSend(byte, mybaudrate = 19200):
+	'''
+	送信
+	mybaudrate:ボーレート
+	args:送信したい文字列 (数字の場合も文字列型にすること)
+	'''
+	com = setSerial(mybaudrate)
+	com.flushInput()
+	com.write(b'TXDA' + byte + b'\r\n')
+	com.readline()
+	com.flushOutput()
+	com.close()
+
+
 def Reception(mybaudrate = 19200):
 	'''
 	受信
