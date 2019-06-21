@@ -314,9 +314,10 @@ def IMSend(byte, mybaudrate = 19200):
 	mybaudrate:ボーレート
 	args:送信したい文字列 (数字の場合も文字列型にすること)
 	'''
+	#print(byte)
 	com = setSerial(mybaudrate)
 	com.flushInput()
-	com.write(b'TXDA' + byte + b'\r\n')
+	com.write(b'TXDA' + binascii.b2a_hex(byte) + b'\r\n')
 	com.readline()
 	com.flushOutput()
 	com.close()
