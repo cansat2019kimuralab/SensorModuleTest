@@ -3,7 +3,9 @@
 
 from smbus import SMBus
 import time
+import pigpio
 
+bme280Pin = 5
 bus_number  = 1
 i2c_address = 0x76
 
@@ -12,8 +14,10 @@ bus = SMBus(bus_number)
 digT = []
 digP = []
 digH = []
-
 t_fine = 0.0
+
+pi = pigpio.pi()
+pi.setMode(bme280Pin, pigpio.OUTPUT)
 
 def writeReg(reg_address, data):
 	'''
@@ -120,6 +124,7 @@ def bme280_setup():
 	'''
 	セットアップ
 	'''
+	power(1)			#Turn on"
 	osrs_t = 1			#Temperature oversampling x 1
 	osrs_p = 1			#Pressure oversampling x 1
 	osrs_h = 1			#Humidity oversampling x 1
@@ -156,6 +161,8 @@ def bme280_read():
 	value = [temp, pres, hum, alt]
 	return value
 
+def power(output):
+	pi.write(bme280Pin, output)
 
 if __name__ == '__main__':
 	bme280_setup()
