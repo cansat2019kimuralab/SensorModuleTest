@@ -8,7 +8,7 @@ def Capture(count):
         camera.resolution = (240,320)
         #camera.start_preview()
         time.sleep(2)
-        camera.capture('photo'+str(count)+'.jpg')
+        camera.capture('photo/photo'+str(count)+'.jpg')
 
 if __name__ == "__main__":
 	Capture(1)
