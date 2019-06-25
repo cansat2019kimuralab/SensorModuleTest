@@ -117,7 +117,8 @@ def bmx055_read():
 
 	#数値丸め
 	for i in range(len(value)):
-		value[i] = round(value[i], 4)
+		if value[i] is not None:
+			value[i] = round(value[i], 4)
 
 	return 	value
 
@@ -127,7 +128,7 @@ if __name__ == '__main__':
 		while 1:
 			bmxData = bmx055_read()
 			for i in range(len(bmxData)):
-				print(str(bmxData[i]) + " ", end="")
+				print(str(bmxData[i]) + "\t", end="")
 			print()
 			time.sleep(1)
 

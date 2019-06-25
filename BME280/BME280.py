@@ -159,6 +159,11 @@ def bme280_read():
 	MEAN_SEA_LEVEL_PRESSURE = 1010.6
 	alt = ((temp+273.15)/0.0065)* (pow(MEAN_SEA_LEVEL_PRESSURE / pres, 0.190294957) - 1.0)
 	value = [temp, pres, hum, alt]
+
+	for i in range(len(value)):
+		if value[i] is not None:
+			value[i] = round(value[i], 4)
+
 	return value
 
 def power(output):
@@ -171,7 +176,7 @@ if __name__ == '__main__':
 		while 1:
 			bmedata = bme280_read()
 			for i in range(len(bmedata)):
-				print(str(bmedata[i]) + " ", end="")
+				print(str(bmedata[i]) + "\t", end="")
 			print()
 			time.sleep(1)
 	except KeyboardInterrupt:
