@@ -17,7 +17,7 @@ digH = []
 t_fine = 0.0
 
 pi = pigpio.pi()
-pi.setMode(bme280Pin, pigpio.OUTPUT)
+pi.set_mode(bme280Pin, pigpio.OUTPUT)
 
 def writeReg(reg_address, data):
 	'''
