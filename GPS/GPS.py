@@ -18,7 +18,7 @@ def readGPS():
 	sHeight=0.0
 	gHeight=0.0
 	value = [0.0, 0.0, 0.0, 0.0, 0.0]
-	
+
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
 		gpsData = data.decode('utf-8', 'replace')
@@ -39,7 +39,7 @@ def readGPS():
 			gpgga = gpsData[gga:gga+72].split(",")
 
 			#Read Lat and Lon
-			if len(gprmc) >= 5:
+			if len(gprmc) >= 7:
 				utc = gprmc[1]
 				lat = gprmc[3]
 				lon = gprmc[5]
@@ -49,21 +49,25 @@ def readGPS():
 					Lat = Lat * -1
 				if(gprmc[6] == "W"):
 					Lon = Lon * -1
-			elif len(gpgga) >= 4:
+			elif len(gpgga) >= 6:
 				utc = gpgga[1]
 				lat = gpgga[2]
 				lon = gpgga[4]
-				Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
-				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+				try:
+					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
+					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+				except:
+					Lat = -1.0
+					Lon = -0.0
 				if(gpgga[3] == "S"):
-					Lat = Lat * -1
+					Lat = Lat * -1.0
 				if(gpgga[5] == "W"):
-					Lon = Lon * -1
+					Lon = Lon * -1.0
 			else:
 				pass
 
 			#Read Height
-			if len(gpgga) >= 11:
+			if len(gpgga) >= 12:
 				sHeight=gpgga[9]
 				gHeight=gpgga[11]
 		else:
@@ -71,7 +75,7 @@ def readGPS():
 			utc = -1.0
 			Lat = -1.0
 			Lon = 0.0
-		
+
 	value = [utc, Lat, Lon, sHeight, gHeight]
 	return value
 
