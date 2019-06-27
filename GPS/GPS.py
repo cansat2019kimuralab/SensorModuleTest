@@ -82,6 +82,8 @@ def closeGPS():
 if __name__ == '__main__':
 	try:
 		openGPS()
+		with open("gps.txt", "a") as f:
+			pass
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
 			utc,lat,lon,sHeight,gHeight = readGPS()
@@ -97,7 +99,9 @@ if __name__ == '__main__':
 				print(str(sHeight) + " ", end="")
 				print(str(gHeight), end="")
 				print()
-				
+				with open("gps.txt", "a") as f:
+					f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
+
 			time.sleep(1)
 	except KeyboardInterrupt:
 		closeGPS()

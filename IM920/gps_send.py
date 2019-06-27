@@ -22,13 +22,11 @@ if __name__ == '__main__':
 					print("Status V")
 					IM920.Send("V")
 			else:
-				print(str(utctime) + "  " + str(lat) + " " + str(lon))
-				print(str(sHeight)+str(gHeight))
-				IM920.Send('g'+str(utctime) + ',' + str(utctime) + ',' + str(lat) + ',' + str(lon) + ',' + str(sHeight) + ',' + str(gHeight))
-				#IM920.Send('a'+str(lat))
-				#IM920.Send('o'+str(lon))
-				#IM920.Send('s'+str(sHeight))
-				#IM920.Send('g'+str(gHeight))
+				#print(str(utctime) + "  " + str(lat) + " " + str(lon), end="")
+				#print(str(sHeight)+str(gHeight))
+				IM920.Send('g'+str(utctime) + ',' + str(lat) + ',' + str(lon) + ',' + str(sHeight) + ',' + str(gHeight) + ',')
+				with open("gps.txt", "a") as f:
+					f.write("UTC:" + str(utctime) + "\tLat:" + str(lat) + "\tLon:" + str(lon) + "\tsH:" + str(sHeight) + "\tgH:" + str(gHeight) + "\n")
 
 			time.sleep(1)
 	except KeyboardInterrupt:
