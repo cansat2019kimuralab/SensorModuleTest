@@ -43,8 +43,12 @@ def readGPS():
 				utc = gprmc[1]
 				lat = gprmc[3]
 				lon = gprmc[5]
-				Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
-				Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+				try:
+					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
+					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+				except:
+					Lat = -1.0
+					Lon = 0.0
 				if(gprmc[4] == "S"):
 					Lat = Lat * -1
 				if(gprmc[6] == "W"):
@@ -58,7 +62,7 @@ def readGPS():
 					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				except:
 					Lat = -1.0
-					Lon = -0.0
+					Lon = 0.0
 				if(gpgga[3] == "S"):
 					Lat = Lat * -1.0
 				if(gpgga[5] == "W"):
