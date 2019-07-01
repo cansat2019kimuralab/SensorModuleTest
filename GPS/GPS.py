@@ -82,7 +82,7 @@ def readGPS():
 
 	value = [utc, Lat, Lon, sHeight, gHeight]
 	return value
-
+	print(str(gpsData)+" ",end="")
 def closeGPS():
 	pi.bb_serial_read_close(RX)
 	pi.stop()
@@ -101,7 +101,6 @@ if __name__ == '__main__':
 				else:
 					print("Status V")
 			else:
-				print(str(gpsData)+" ",end="")
 				print(str(utc) + "  ", end ="")
 				print(str(lat) + " ", end ="")
 				print(str(lon) + " ", end ="")
