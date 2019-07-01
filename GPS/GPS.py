@@ -101,6 +101,7 @@ if __name__ == '__main__':
 				else:
 					print("Status V")
 			else:
+				print(str(gpsData)+" ",end="")
 				print(str(utc) + "  ", end ="")
 				print(str(lat) + " ", end ="")
 				print(str(lon) + " ", end ="")
