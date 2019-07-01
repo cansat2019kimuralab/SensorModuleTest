@@ -22,7 +22,7 @@ def readGPS():
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
 		gpsData = data.decode('utf-8', 'replace')
-		#print(gpsData)
+		print(gpsData)
 
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
@@ -82,7 +82,7 @@ def readGPS():
 
 	value = [utc, Lat, Lon, sHeight, gHeight]
 	return value
-	print(str(gpsData)+" ",end="")
+
 def closeGPS():
 	pi.bb_serial_read_close(RX)
 	pi.stop()
