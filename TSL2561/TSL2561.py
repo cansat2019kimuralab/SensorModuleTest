@@ -77,7 +77,7 @@ class Illumi:
             _scale = _scale / 0.034
 
         # gainによるスケール
-        if self.gain == 0x00 :              # gain 1
+        if self.gain == 0x10 :              # gain 1
             _scale = _scale * 16.0
 
         self.scale = _scale
