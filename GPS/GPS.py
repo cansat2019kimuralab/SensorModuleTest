@@ -22,8 +22,8 @@ def readGPS():
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
 		gpsData = data.decode('utf-8', 'replace')
-		print(gpsData)
-
+		#print(gpsData)
+		
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
 		#gsa = gpsData.find('$GPGSA,')
