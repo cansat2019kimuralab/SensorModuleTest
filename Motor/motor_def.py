@@ -1,4 +1,3 @@
-
 import pigpio
 import time
 
@@ -17,63 +16,64 @@ pi1.set_mode(BIN1, pigpio.OUTPUT)
 pi1.set_mode(BIN2, pigpio.OUTPUT)
 pi1.set_mode(PWMB,pigpio.OUTPUT)
 
-def set_motor(pi1, a, b, c, t):
-	pi1.write(AIN1, a)
-	pi1.write(AIN2, b)
-	pi1.write(PWMA,c)
-	time.sleep(t)
+motor_prior_l = 0	#Left Motor Speed Prior
+motor_prior_r = 0 #Motor Right Speed Prior
 
-def motor(left, right):
-	left = left * 10000
-	right = right * 10000
-	if left > 0:
-		pi1.write(AIN1, 1)
-		pi1.write(AIN2, 0)
-	elif left < 0:
-		pi1.write(AIN1, 0)
-		pi1.write(AIN2, 1)
-	else:
-		pi1.write(AIN1, 0)
-		pi1.write(BIN1, 0)
+def motor(left, right, t = 0.001):
+	global motor_prior_l
+	global motor_prior_r
+	t1 = time.time()
+	left = left * (-1)
+	while(time.time() - t1 < t):
+		if left < motor_prior_l:
+			motorPL = motor_prior_l  - 1
+		elif left > motor_prior_l:
+			motorPL = motor_prior_l + 1
+		else:
+			motorPL = motor_prior_l
 
-	if right > 0:
-		pi1.write(BIN1, 1)
-		pi1.write(BIN2, 0)
-	elif right < 0:
-		pi1.write(BIN1, 0)
-		pi1.write(BIN2, 1)
-	else:
-		pi1.write(BIN1, 0)
-		pi1.write(BIN1, 0)
+		if right < motor_prior_r:
+			motorPR = motor_prior_r - 1
+		elif right > motor_prior_r:
+			motorPR = motor_prior_r + 1
+		else :
+			motorPR = motor_prior_r
 
-	pi1.hardware_PWM(PWMA, 200, abs(left))
-	pi1.hardware_PWM(PWMB, 200, abs(right))
+		motor_prior_l = motorPL
+		motor_prior_r = motorPR
+		#print(str(motorPL) + "\t" + str(motorPR))
+		motorPL = motorPL * 10000
+		motorPR = motorPR * 10000
+		if left > 0:
+			pi1.write(AIN1, 1)
+			pi1.write(AIN2, 0)
+		elif left < 0:
+			pi1.write(AIN1, 0)
+			pi1.write(AIN2, 1)
+		else:
+			pi1.write(AIN1, 0)
+			pi1.write(BIN1, 0)
+
+		if right > 0:
+			pi1.write(BIN1, 1)
+			pi1.write(BIN2, 0)
+		elif right < 0:
+			pi1.write(BIN1, 0)
+			pi1.write(BIN2, 1)
+		else:
+			pi1.write(BIN1, 0)
+			pi1.write(BIN1, 0)
+
+		pi1.hardware_PWM(PWMA, 200, abs(motorPL))
+		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+		time.sleep(0.005)
 
 try:
-	motor(0, 0)
-	for i in range(2):
-		motor(50, 50)
-		time.sleep(1)
-		motor(0, 0)
-		time.sleep(1)
-
-	for i in range(2):
-		motor(-50, -50)
-		time.sleep(1)
-		motor(0, 0)
-		time.sleep(1)
-
-	for i in range(2):
-		motor(50, -50)
-		time.sleep(1)
-		motor(0, 0)
-		time.sleep(1)
-
-	for i in range(2):
-		motor(-50, 50)
-		time.sleep(1)
-		motor(0, 0)
-		time.sleep(1)
-
+	motor(50, 50, 1)
+	motor(0, 0, 1)
 except KeyboardInterrupt:
-	print ("done!")
+	print ("\ndone!")
+	pi1.hardware_PWM(PWMA, 0, 0)
+	pi1.hardware_PWM(PWMB, 0, 0)
+except:
+	motor(0,0)
