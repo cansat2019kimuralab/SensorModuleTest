@@ -17,13 +17,17 @@ pi1.set_mode(BIN2, pigpio.OUTPUT)
 pi1.set_mode(PWMB,pigpio.OUTPUT)
 
 motor_prior_l = 0	#Left Motor Speed Prior
-motor_prior_r = 0 #Motor Right Speed Prior
+motor_prior_r = 0	#Right Motor Speed Prior
 
 def motor(left, right, t = 0.001):
 	global motor_prior_l
 	global motor_prior_r
 	t1 = time.time()
+
+	#if motor wiring changed, check these val
 	left = left * (-1)
+	right = right * 1
+
 	while(time.time() - t1 < t):
 		if left < motor_prior_l:
 			motorPL = motor_prior_l  - 1
