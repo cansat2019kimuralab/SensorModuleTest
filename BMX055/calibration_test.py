@@ -28,6 +28,7 @@ def calibration(path):
 
     xx_csv = x_csv
     yy_csv = y_csv
+
     # sub average
     x_ave=np.average(x_csv)
     y_ave=np.average(y_csv)
@@ -43,10 +44,10 @@ def calibration(path):
     myoutput = myodr.run()
 
     """from ellipse to Circle"""
-    x_csv = x_csv / 2.*myoutput.beta[1]
-    y_csv = y_csv / 2.*myoutput.beta[0]
+    x_csv = x_csv / 100.*myoutput.beta[1]
+    y_csv = y_csv / 100.*myoutput.beta[0]
 
-    cal_data = [x_ave, y_ave, 20.*myoutput.beta[1], 20.*myoutput.beta[0]]
+    cal_data = [x_ave, y_ave, 100.*myoutput.beta[1], 100.*myoutput.beta[0]]
 
     ax = plt.subplot(111, aspect='equal')
     plt.scatter(xx_csv, yy_csv, c="blue")
