@@ -16,6 +16,24 @@ def bmx055_setup():
 	'''
 	#time.sleep(3)
 	i2c = smbus.SMBus(1)
+
+	#Initialize ACC
+	i2c.write_byte_data(ACC_ADDRESS, 0x0F, 0x03)
+	time.sleep(0.1)
+	i2c.write_byte_data(ACC_ADDRESS, 0x10, 0x08)
+	time.sleep(0.1)
+	i2c.write_byte_data(ACC_ADDRESS, 0x11, 0x00)
+	time.sleep(0.1)
+
+	#Initialize GYR
+	i2c.write_byte_data(GYR_ADDRESS, 0x0F, 0x04)
+	time.sleep(0.1)
+	i2c.write_byte_data(GYR_ADDRESS, 0x10, 0x07)
+	time.sleep(0.1)
+	i2c.write_byte_data(GYR_ADDRESS, 0x11, 0x00)
+	time.sleep(0.1)
+
+	#Initialize MAG
 	data = i2c.read_byte_data(MAG_ADDRESS, 0x4B)
 	if(data == 0):
 		i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x83)
@@ -64,7 +82,7 @@ def gyr_dataRead():
 
 	for i in range(3):
 		value[i] = (gyrData[2*i+1] * 256) + gyrData[i]
-		value[i] = value[i] if value[i] > 32767 else value[i] - 65536
+		value[i] = value[i] - 65536 if value[i] > 32767 else value[i]
 		value[i] = value[i] * 0.0038
 
 	i2c.close()
@@ -128,7 +146,7 @@ if __name__ == '__main__':
 		while 1:
 			bmxData = bmx055_read()
 			for i in range(len(bmxData)):
-				print(str(bmxData[i]) + "\t", end="")
+				print("{:.5g}\t".format(bmxData[i]), end="")
 			print()
 			time.sleep(1)
 
