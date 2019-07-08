@@ -7,4 +7,9 @@
 
 # Capture.py
 引数：int型整数
+
 戻り値：なし
+
+保存先：photoというフォルダの中
+
+名前：photo引数.jpg
