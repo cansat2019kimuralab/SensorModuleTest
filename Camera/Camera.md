@@ -15,3 +15,8 @@
 名前：photo引数.jpg
 
 サイズ：QVGA（320,240）
+
+# ParaDetection.py
+引数：画像（cv::mat）
+
+戻り値：  0(ゴール未検出) or 1(ゴール検出)
