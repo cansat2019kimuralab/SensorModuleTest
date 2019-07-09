@@ -42,9 +42,9 @@ if __name__ == '__main__':
 			print(dir, end="")
 			dir = math.atan2((bmx055data[6]-cal_data[0])/cal_data[2], (bmx055data[7]-cal_data[1])/cal_data[3])*180/math.pi
 			print("\t" + str(dir))
-	except KeyboadInterrupt:
-		motor_def.motor(0, 0, 1)
+	except KeyboardInterrupt:
+		motor_def.motor_stop()
 		pass
-	except e:
-		motor_def.motor(0, 0, 1)
+	except Exception as e:
+		motor_def.motor_stop()
 		print(e.message)

@@ -58,8 +58,7 @@ def acc_dataRead():
 	accData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 	value = [0.0, 0.0, 0.0]
 	for i in range(6):
-		pass
-		#accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
+		accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
 
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + ((accData[2*i] & 0xF0) / 16)
@@ -78,8 +77,7 @@ def gyr_dataRead():
 	gyrData = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 	value = [0.0, 0.0, 0.0]
 	for i in range(6):
-		pass
-		#gyrData[i] = i2c.read_byte_data(GYR_ADDRESS, GYR_REGISTER_ADDRESS+i)
+		gyrData[i] = i2c.read_byte_data(GYR_ADDRESS, GYR_REGISTER_ADDRESS+i)
 
 	for i in range(3):
 		value[i] = (gyrData[2*i+1] * 256) + gyrData[i]
