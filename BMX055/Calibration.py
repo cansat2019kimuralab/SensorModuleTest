@@ -4,6 +4,7 @@ from scipy import optimize
 from matplotlib.patches import Ellipse
 import matplotlib.pyplot as plt
 from scipy.stats import norm
+
 def ellipse(B, x):
     return ((x[0]/B[0])**2+(x[1]/B[1])**2-1.)
 
@@ -37,15 +38,12 @@ def calibration(path):
 
     x2 = np.sum(x2)
     y2 = np.sum(y2)
-    
+
     E = np.sum(E)
     F = np.sum(F)
     H = np.sum(H)
-
     K = np.array([[x2,xy,x_csv], [xy,y2,y_csv], [x_csv,y_csv,n]])
-
     L = np.array([E,F,H])
-
     P = np.dot(np.linalg.inv(K),L)
 
     x_ave = (-1/2)* P[0]
@@ -61,7 +59,6 @@ def calibration(path):
     myodr = odr.ODR(mydata, mdr, beta0=[1.,2.])
     myoutput = myodr.run()
 
-    """from ellipse to Circle"""
     x_csv = x_csv / 100.* myoutput.beta[1]
     y_csv = y_csv / 100.* myoutput.beta[0]
 
