@@ -72,12 +72,15 @@ def motor(left, right, t = 0.001):
 		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
 		time.sleep(0.005)
 
-try:
-	motor(50, 50, 1)
-	motor(0, 0, 1)
-except KeyboardInterrupt:
-	print ("\ndone!")
-	pi1.hardware_PWM(PWMA, 0, 0)
-	pi1.hardware_PWM(PWMB, 0, 0)
-except:
-	motor(0,0)
+def motor_stop():
+	pi1.hardware_PWM(PWMA, 200, 0)
+	pi1.hardware_PWM(PWMB, 200, 0)
+
+if __name__ == "__main__":
+	try:
+		motor(50, 50, 1)
+		motor(0, 0, 1)
+	except KeyboardInterrupt:
+		motor_stop()
+	except:
+		motor_stop()

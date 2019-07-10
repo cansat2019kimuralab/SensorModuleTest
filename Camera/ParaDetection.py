@@ -49,18 +49,14 @@ def ParaDetection(img):
 	#goal未検出時
 	if max_area <= 100:
 		print( "There is not the Parachute" )
-		cv2.waitKey()
-		cv2.destroyAllWindows()
 		return 0
 
 	#goal判定
 
 	else:
 		print( "There is the Parachute" )
-		cv2.waitKey()
-		cv2.destroyAllWindows()
 		return 1
 
 if __name__ == "__main__":
-	im = cv2.imread('picture/target10.jpg')
+	im = cv2.imread('photo/photo1.jpg')
 	ParaDetection(im)
