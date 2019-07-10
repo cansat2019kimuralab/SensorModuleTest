@@ -1,5 +1,4 @@
 import sys
-sys.path.append('/home/pi/git/kimuralab/SensorModuleTest/BMX055')
 sys.path.append('/home/pi/git/kimuralab/SensorModuleTest/Motor')
 import numpy as np
 import math
@@ -19,10 +18,9 @@ if __name__ == '__main__':
 		file = 'cal_test_1.txt'
 		BMX055.bmx055_setup()
 		count = 0
-
-		while count <= 300:
-			motor_def.motor(50, -50)
-			count = count + 1
+		#motor_def.motor(50, -50, 1)
+		while count <= 200:
+			motor_def.motor(30, -30)
 			bmx055data = BMX055.bmx055_read()
 			with open(file, 'a') as f:
 				for i in range(6, 8):
@@ -30,6 +28,7 @@ if __name__ == '__main__':
 					f.write(str(bmx055data[i]) + "\t")
 				print()
 				f.write("\n")
+			count = count + 1
 
 		motor_def.motor(0, 0, 1)
 		cal_data = Calibration.calibration(file)
@@ -44,7 +43,6 @@ if __name__ == '__main__':
 			print("\t" + str(dir))
 	except KeyboardInterrupt:
 		motor_def.motor_stop()
-		pass
 	except Exception as e:
 		motor_def.motor_stop()
 		print(e.message)
