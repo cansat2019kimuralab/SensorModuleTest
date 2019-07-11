@@ -1,4 +1,8 @@
-﻿# GPS用リポジトリ
+﻿# GPS.py
+ 引数　：なし
+戻り値：utc,Lat,Lon,sHeight,gHeight
+
+# GPS用リポジトリ
 ## 使い方
 pigpioをインストールする  
 `sudo apt install pigpio`  
