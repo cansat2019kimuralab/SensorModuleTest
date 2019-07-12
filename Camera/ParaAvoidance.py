@@ -65,13 +65,14 @@ def ParaAvoidance():
 			img = cv2.imread('photo/photo' + n + '.jpg')
 			flug = ParaDetection.ParaDetection(img)
 			if flug == 0:
-				Motor.Motor(50,50,2)
+				Motor.motor(50,50,2)
 				Motor.motor_stop()
 				GPS_now = GPS.readGPS()
 				dist = Cal_rho(GPS_now[2], GPS_now[1], GPS_init[2], GPS_init[1])
 
 			else:
-				Motor.Motor(-30,30,1)
+				Motor.motor(-30,30,1)
+				Motor.motor_stop()
 
 	except KeyboardInterrupt:
 		Motor.motor_stop()
