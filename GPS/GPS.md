@@ -8,6 +8,9 @@
 - closeGPS():  
 	引数　：なし  
 	戻り値：なし　
+- Cal_rho():  
+	引数　：[lon_a,lat_a,lon_b,lat_b] 緯度、経度2つずつ
+	戻り値：距離[km]　
 # GPS用リポジトリ
 ## 使い方
 pigpioをインストールする  
