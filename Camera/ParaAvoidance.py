@@ -62,7 +62,7 @@ def ParaAvoidance():
 	try:
 		while dist <= 0.020 :
 			Capture.Capture(n)
-			img = cv2.imread('photo/photo' + n + '.jpg')
+			img = cv2.imread('photo/photo' + str(n) + '.jpg')
 			flug = ParaDetection.ParaDetection(img)
 			if flug == 0:
 				Motor.motor(50,50,2)
