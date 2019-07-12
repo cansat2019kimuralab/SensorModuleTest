@@ -11,7 +11,6 @@ import pigpio
 import serial
 import binascii
 import BMX055
-import BME280
 import Capture
 import ParaDetection
 import IM920
