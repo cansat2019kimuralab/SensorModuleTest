@@ -1,4 +1,14 @@
-﻿# GPS用リポジトリ
+﻿# GPS.py
+- openGPS():GPSをセットアップする関数 
+	引数　：なし  
+	戻り値：なし  
+- readGPS():GPSデータを読み込むための関数  
+	引数　：なし  
+	戻り値：[utc, Lat, Lon, sHeight, gHeight]
+- closeGPS():  
+	引数　：なし  
+	戻り値：なし　
+# GPS用リポジトリ
 ## 使い方
 pigpioをインストールする  
 `sudo apt install pigpio`  
