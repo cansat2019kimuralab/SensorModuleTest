@@ -13,7 +13,7 @@ import binascii
 import BMX055
 import BME280
 import Capture
-impoer ParaDetection
+import ParaDetection
 import IM920
 import GPS
 import Motor
@@ -58,15 +58,24 @@ def ParaAvoidance():
 
 	GPS_now = GPS_init
 	dist = 0
-	while dist <= 0.020 :
-		Capture.Capture(n)
-		img = cv2.imread('photo/photo' + n + '.jpg')
-		flug = ParaDetection(img)
-		if flug = 0:
-			Motor.Motor(50,50,2)
-			GPS_now = GPS.readGPS()
-			dist = Cal_rho(GPS_now[2], GPS_now[1], GPS_init[2], GPS_init[1])
+	try:
+		while dist <= 0.020 :
+			Capture.Capture(n)
+			img = cv2.imread('photo/photo' + n + '.jpg')
+			flug = ParaDetection.ParaDetection(img)
+			if flug == 0:
+				Motor.Motor(50,50,2)
+				GPS_now = GPS.readGPS()
+				dist = Cal_rho(GPS_now[2], GPS_now[1], GPS_init[2], GPS_init[1])
 
-		else:
-			Motor.Motor(-30,30,1)
-		
+			else:
+				Motor.Motor(-30,30,1)
+
+	except KeyboardInterrupt:
+		Motor.motor_stop()
+	
+	GPS.closeGPS()
+
+if __name__ == '__main__':
+	print("ParaAvoidance start")
+	ParaAvoidance()
