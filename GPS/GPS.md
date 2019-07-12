@@ -1,5 +1,5 @@
 ﻿# GPS.py
-- openGPS():GPSをセットアップする関数 
+- openGPS():GPSをセットアップする関数  
 	引数　：なし  
 	戻り値：なし  
 - readGPS():GPSデータを読み込むための関数  
