@@ -11,12 +11,14 @@ import pigpio
 import serial
 import binascii
 import BMX055
+import BME280
 import Capture
 import ParaDetection
 import IM920
 import GPS
 import Motor
 import TSL2561
+import cv2
 import numpy as np
 
 def ParaJudge():
@@ -64,6 +66,7 @@ def ParaAvoidance():
 			flug = ParaDetection.ParaDetection(img)
 			if flug == 0:
 				Motor.Motor(50,50,2)
+				Motor.motor_stop()
 				GPS_now = GPS.readGPS()
 				dist = Cal_rho(GPS_now[2], GPS_now[1], GPS_init[2], GPS_init[1])
 
@@ -76,5 +79,7 @@ def ParaAvoidance():
 	GPS.closeGPS()
 
 if __name__ == '__main__':
+	print("ParaJudge start")
+	ParaJudge()
 	print("ParaAvoidance start")
 	ParaAvoidance()
