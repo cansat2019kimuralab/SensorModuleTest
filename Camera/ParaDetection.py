@@ -42,8 +42,6 @@ def ParaDetection(img):
 			max_area = area
 			max_area_contour = j
 
-	cnt = contours[max_area_contour]
-
 	#print('Max area is',max_area)
 
 	#goal未検出時
