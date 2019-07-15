@@ -12,7 +12,7 @@
 	戻り値：なし　
 - Cal_rho():  
 	引数　：[lon_a,lat_a,lon_b,lat_b] 緯度、経度2つずつ  
-	戻り値：距離[km]　
+	戻り値：距離[km]  
 	https://qiita.com/damyarou/items/9cb633e844c78307134a  
 # GPS用リポジトリ
 ## 使い方
