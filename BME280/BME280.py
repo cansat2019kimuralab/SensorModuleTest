@@ -172,12 +172,15 @@ def power(output):
 if __name__ == '__main__':
 	bme280_setup()
 	bme280_calib_param()
-	try:
-		while 1:
-			bmedata = bme280_read()
-			for i in range(len(bmedata)):
-				print(str(bmedata[i]) + "\t", end="")
-			print()
-			time.sleep(1)
-	except KeyboardInterrupt:
-		print("\r\n")
+	with open("preslog.txt","w")as f:
+		try:
+			while 1:
+				bmedata = bme280_read()
+				for i in range(len(bmedata)):
+					print(str(bmedata[i]) + "\t", end="")
+				print()
+				f.write(str(press)+"	"+str(alt)+"	")
+				f.write("\n")
+				time.sleep(1)
+		except KeyboardInterrupt:
+			print("\r\n")
