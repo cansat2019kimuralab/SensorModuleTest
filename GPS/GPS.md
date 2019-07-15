@@ -4,7 +4,9 @@
 	戻り値：なし  
 - readGPS():GPSデータを読み込むための関数  
 	引数　：なし  
-	戻り値：[utc, Lat, Lon, sHeight, gHeight]
+	戻り値：[utc, Lat, Lon, sHeight, gHeight]  
+		[* .0 ,0 ,* ,* ]ならばStatusV  
+		[-1 ,0 ,0 ,* ,* ]ならばStatusA  
 - closeGPS():  
 	引数　：なし  
 	戻り値：なし　
