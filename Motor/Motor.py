@@ -19,16 +19,17 @@ pi1.set_mode(PWMB,pigpio.OUTPUT)
 motor_prior_l = 0	#Left Motor Speed Prior
 motor_prior_r = 0	#Right Motor Speed Prior
 
-def motor(left, right, t = 0.001):
+def motor(left, right, t = 0.001, mode = 0):
 	global motor_prior_l
 	global motor_prior_r
 	t1 = time.time()
 
 	#if motor wiring changed, check these val
 	left = left * (-1)
-	right = right * 1
+	right = right * (-1)
 
 	while(time.time() - t1 < t):
+		#print(motor_prior_l, motor_prior_r)
 		if left < motor_prior_l:
 			motorPL = motor_prior_l  - 1
 		elif left > motor_prior_l:
@@ -48,29 +49,35 @@ def motor(left, right, t = 0.001):
 		#print(str(motorPL) + "\t" + str(motorPR))
 		motorPL = motorPL * 10000
 		motorPR = motorPR * 10000
-		if left > 0:
+		if motorPL > 0:
 			pi1.write(AIN1, 1)
 			pi1.write(AIN2, 0)
-		elif left < 0:
+		elif motorPL < 0:
 			pi1.write(AIN1, 0)
 			pi1.write(AIN2, 1)
 		else:
 			pi1.write(AIN1, 0)
 			pi1.write(BIN1, 0)
 
-		if right > 0:
+		if motorPR > 0:
 			pi1.write(BIN1, 1)
 			pi1.write(BIN2, 0)
-		elif right < 0:
+		elif motorPR < 0:
 			pi1.write(BIN1, 0)
 			pi1.write(BIN2, 1)
 		else:
 			pi1.write(BIN1, 0)
 			pi1.write(BIN1, 0)
 
-		pi1.hardware_PWM(PWMA, 200, abs(motorPL))
-		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
-		time.sleep(0.005)
+		if(mode == 1):
+			motorPL = left * 10000
+			motorPR = right * 10000
+			pi1.hardware_PWM(PWMA, 200, abs(motorPL))
+			pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+		else:
+			pi1.hardware_PWM(PWMA, 200, abs(motorPL))
+			pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+			time.sleep(0.005)
 
 def motor_stop():
 	pi1.hardware_PWM(PWMA, 200, 0)
@@ -78,9 +85,12 @@ def motor_stop():
 
 if __name__ == "__main__":
 	try:
-		motor(50, -50, 3)
-		motor(0, 0, 1)
+		motor(70, -70, 3)
+		motor(-70, 70, 3)
+		motor(0, 0, 2, 0)
+		motor_stop()
 	except KeyboardInterrupt:
 		motor_stop()
-	except:
+	except Exception as e:
+		print(e.message)
 		motor_stop()
