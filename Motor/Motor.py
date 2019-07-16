@@ -47,8 +47,8 @@ def motor(left, right, t = 0.001, mode = 0):
 		motor_prior_l = motorPL
 		motor_prior_r = motorPR
 		#print(str(motorPL) + "\t" + str(motorPR))
-		motorPL = motorPL * 10000
-		motorPR = motorPR * 10000
+		motorPL = int(motorPL * 10000)
+		motorPR = int(motorPR * 10000)
 		if motorPL > 0:
 			pi1.write(AIN1, 1)
 			pi1.write(AIN2, 0)
@@ -70,8 +70,8 @@ def motor(left, right, t = 0.001, mode = 0):
 			pi1.write(BIN1, 0)
 
 		if(mode == 1):
-			motorPL = left * 10000
-			motorPR = right * 10000
+			motorPL = int(left * 10000)
+			motorPR = int(right * 10000)
 			pi1.hardware_PWM(PWMA, 200, abs(motorPL))
 			pi1.hardware_PWM(PWMB, 200, abs(motorPR))
 		else:
