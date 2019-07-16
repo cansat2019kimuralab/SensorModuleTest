@@ -12,7 +12,7 @@
 	戻り値：なし　
 - Cal_RhoAng():  
 	引数　：[lat_a,lat_b,lon_a,lon_b] ２点の緯度、経度（A：始点、B：終点）   
-	戻り値：距離[m]、角度[rad]  
+	戻り値：[rho, angle] それぞれ距離[m]、角度[rad]  
 	https://qiita.com/damyarou/items/9cb633e844c78307134a  
 # GPS用リポジトリ
 ## 使い方
