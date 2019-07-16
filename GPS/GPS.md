@@ -7,10 +7,10 @@
 	戻り値：[utc, Lat, Lon, sHeight, gHeight]  
 		- [* .0 ,0 ,* ,* ]ならばStatusV  
 		- [-1 ,0 ,0 ,* ,* ]ならばStatusA  
-- closeGPS():  
+- closeGPS():GPSの終了処理  
 	引数　：なし  
 	戻り値：なし　
-- Cal_RhoAng():  
+- Cal_RhoAng(lat_a,lon_a,lat_b,lon_b):２点間の距離、方位を求める関数  
 	引数　：[lat_a,lon_a,lat_b,lon_b] ２点の緯度、経度（A：始点、B：終点）   
 	戻り値：[rho, angle] それぞれ距離[m]、角度[rad]  
 	https://qiita.com/damyarou/items/9cb633e844c78307134a  
