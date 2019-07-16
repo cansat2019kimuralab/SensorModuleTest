@@ -60,7 +60,8 @@ def acc_dataRead():
 		try:
 			accData[i] = i2c.read_byte_data(ACC_ADDRESS, ACC_REGISTER_ADDRESS+i)
 		except:
-			print("error")
+			pass
+			#print("error")
 
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
@@ -79,7 +80,8 @@ def gyr_dataRead():
 		try:
 			gyrData[i] = i2c.read_byte_data(GYR_ADDRESS, GYR_REGISTER_ADDRESS+i)
 		except:
-			print("error")
+			pass
+			#print("error")
 
 	for i in range(3):
 		value[i] = (gyrData[2*i+1] * 256) + gyrData[i]
@@ -98,7 +100,8 @@ def mag_dataRead():
 		try:
 			magData[i] = i2c.read_byte_data(MAG_ADDRESS, MAG_REGISTER_ADDRESS + i)
 		except:
-			print("error")
+			pass
+			#print("error")
 
 	for i in range(3):
 		if i != 2:
