@@ -1,3 +1,4 @@
+import math
 import sys
 import time
 import difflib
@@ -105,7 +106,7 @@ def Cal_RhoAng(lat_a, lon_a, lat_b ,lon_b):
 	c2 = (np.sin(xx)+xx)*(np.sin(pa) - np.sin(pb))**2 / np.sin(xx/2)**2
 	dr=F/8*(c1-c2)
 	rho=ra*(xx + dr) * 1000	#Convert To [m]
-	angle = math.atan2(lon_b-lon_a,  lat_b-lat_a)	#[rad]
+	angle = math.atan2(lon_b-lon_a,  lat_b-lat_a) * 180 / math.pi	#[deg]
 	return rho, angle
 	
 if __name__ == '__main__':
