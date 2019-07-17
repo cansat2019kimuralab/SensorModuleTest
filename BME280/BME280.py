@@ -156,7 +156,7 @@ def bme280_read():
 	pres=compensate_P(pres_raw)
 	hum=compensate_H(hum_raw)
 
-	MEAN_SEA_LEVEL_PRESSURE = 1010.6
+	MEAN_SEA_LEVEL_PRESSURE = 1013
 	alt = ((temp+273.15)/0.0065)* (pow(MEAN_SEA_LEVEL_PRESSURE / pres, 0.190294957) - 1.0)
 	value = [temp, pres, hum, alt]
 
@@ -175,11 +175,11 @@ if __name__ == '__main__':
 	with open("preslog.txt","w")as f:
 		try:
 			while 1:
-				bmedata = bme280_read()
-				for i in range(len(bmedata)):
-					print(str(bmedata[i]) + "\t", end="")
-				print()
-				f.write(str(press)+ "\t" + str(alt) + "\t")
+				temp,pres,hum,alt = bme280_read()
+			#	for i in range(len(bmedata)):
+			#		print(str(bmedata[i]) + "\t", end="")
+				print(str(pres)+"	"+str(alt)+"		"+str(temp))
+				f.write(str(pres)+ "\t" + str(alt) + "\t"+str(temp))
 				f.write("\n")
 				time.sleep(1)
 		except KeyboardInterrupt:
