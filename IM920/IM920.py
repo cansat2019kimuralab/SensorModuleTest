@@ -6,7 +6,7 @@ import signal
 import sys
 import platform
 
-portnumber = '/dev/ttyS0'
+portnumber = '/dev/ttyAMA0'
 
 def signal_handler(signal, frame):
 	'''
