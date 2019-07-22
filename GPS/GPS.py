@@ -33,7 +33,7 @@ def readGPS():
 		#vtg = gpsData.find('$GPVTGM')
 		if(gpsData[rmc:rmc+20].find("V") != -1):	#Checking GPS Status
 			#Status V
-			Lat = 0.0
+			Lat = -1.0
 			Lon = 0.0
 		elif(gpsData[rmc:rmc+20].find("A") != -1):
 			#Status A

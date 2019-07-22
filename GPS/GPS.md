@@ -5,8 +5,8 @@
 - readGPS():GPSデータを読み込むための関数  
 	引数　：なし  
 	戻り値：[utc, Lat, Lon, sHeight, gHeight]  
-		- [* .0 ,0 ,* ,* ]ならばStatusV  
-		- [-1 ,0 ,0 ,* ,* ]ならばStatusA  
+		- [*, -1.0, 0.0, *, *]ならばStatusV  
+		- [-1.0, -1.0, 0.0, *, *]ならばStatusA  
 - closeGPS():GPSの終了処理  
 	引数　：なし  
 	戻り値：なし　
