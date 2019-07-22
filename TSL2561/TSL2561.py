@@ -18,7 +18,7 @@ class Illumi:
 
     def powerOn(self):
         self.bus.write_i2c_block_data(self.address, 0x80, [0x03])
-        time.sleep(0.5)
+        time.sleep(0.1)
 
     def powerOff(self):
         self.bus.write_i2c_block_data(self.address, 0x80, [0x00])
@@ -114,30 +114,36 @@ class Illumi:
 
         return lux
 
+sensor1 = Illumi(0x39, 1)
+sensor1.powerOn()
+sensor1.setIntegrationTime('default')
+
+sensor2 = Illumi(0x29, 1)
+sensor2.powerOn()
+sensor2.setIntegrationTime('default')
+
 def readLux():
-    sensor1  = Illumi(0x39,1)
-    sensor1.powerOn()
+	#sensor1  = Illumi(0x39,1)
+	#sensor1.powerOn()
     #sensor1.setHighGain()
-    sensor1.setIntegrationTime('default')
+	#sensor1.setIntegrationTime('default')
 
-    sensor2  = Illumi(0x29,1)
-    sensor2.powerOn()
+	#sensor2  = Illumi(0x29,1)
+	#sensor2.powerOn()
     #sensor2.setHighGain()
-    sensor2.setIntegrationTime('default')
+	#sensor2.setIntegrationTime('default')
 
-    lux1 = sensor1.getLux()
-    lux2 = sensor2.getLux()
+	lux1 = sensor1.getLux()
+	lux2 = sensor2.getLux()
 
-    value = [lux1, lux2]
-    return value
+	value = [lux1, lux2]
+	return value
 
 if __name__ == "__main__":
-    try:
-        while 1:
-            lux = readLux()
-            for i in range(len(lux)):
-               print(str(lux[i]) + " ", end="")
-            print()
-            time.sleep(1)
-    except KeyboardInterrupt:
-        print()
+	try:
+		while 1:
+			lux = readLux()
+			print(str(lux[0])+"	:	"+str(lux[1]))
+			time.sleep(0.5)
+	except KeyboardInterrupt:
+		print()
