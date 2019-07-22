@@ -106,7 +106,7 @@ def Cal_RhoAng(lat_a, lon_a, lat_b ,lon_b):
 	c2 = (np.sin(xx)+xx)*(np.sin(pa) - np.sin(pb))**2 / np.sin(xx/2)**2
 	dr=F/8*(c1-c2)
 	rho=ra*(xx + dr) * 1000	#Convert To [m]
-	angle = math.atan2(lon_b-lon_a,  lat_b-lat_a) * 180 / math.pi	#[deg]
+	angle = math.atan2(lon_a-lon_b,  lat_b-lat_a) * 180 / math.pi	#[deg]
 	return rho, angle
 	
 if __name__ == '__main__':
@@ -119,20 +119,16 @@ if __name__ == '__main__':
 			utc,lat,lon,sHeight,gHeight = readGPS()
 			if(utc == -1):
 				if(lat == -1):
-					print("Reading GPS Error")
+					#print("Reading GPS Error")
+					pass
 				else:
 					print("Status V")
 			else:
-				print(str(utc) + "  ", end ="")
-				print(str(lat) + " ", end ="")
-				print(str(lon) + " ", end ="")
-				print(str(sHeight) + " ", end="")
-				print(str(gHeight), end="")
-				print()
-				with open("gps.txt", "a") as f:
-					f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
+				print(utc, lat, lon)
+				#with open("gps.txt", "a") as f:
+				#	f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
 
-			time.sleep(1)
+			time.sleep(0.1)
 	except KeyboardInterrupt:
 		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
