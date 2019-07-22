@@ -18,4 +18,4 @@ def Capture(path):
 	return filepath
 
 if __name__ == "__main__":
-	Capture(photo)
+	Capture("photo")
