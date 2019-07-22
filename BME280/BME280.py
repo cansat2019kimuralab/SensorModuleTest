@@ -3,9 +3,7 @@
 
 from smbus import SMBus
 import time
-import pigpio
 
-bme280Pin = 5
 bus_number  = 1
 i2c_address = 0x76
 
@@ -15,9 +13,6 @@ digT = []
 digP = []
 digH = []
 t_fine = 0.0
-
-pi = pigpio.pi()
-pi.set_mode(bme280Pin, pigpio.OUTPUT)
 
 def writeReg(reg_address, data):
 	'''
@@ -119,12 +114,12 @@ def compensate_H(adc_H):
 		var_h = 100.0
 	elif var_h < 0.0:
 		var_h = 0.0
+	return var_h
 
 def bme280_setup():
 	'''
 	セットアップ
 	'''
-	power(1)			#Turn on"
 	osrs_t = 1			#Temperature oversampling x 1
 	osrs_p = 1			#Pressure oversampling x 1
 	osrs_h = 1			#Humidity oversampling x 1
@@ -148,6 +143,7 @@ def bme280_read():
 	data = []
 	for i in range (0xF7, 0xF7+8):
 		data.append(bus.read_byte_data(i2c_address,i))
+
 	pres_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
 	temp_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
 	hum_raw  = (data[6] << 8)  |  data[7]
@@ -166,21 +162,17 @@ def bme280_read():
 
 	return value
 
-def power(output):
-	pi.write(bme280Pin, output)
-
 if __name__ == '__main__':
 	bme280_setup()
 	bme280_calib_param()
-	with open("preslog.txt","w")as f:
-		try:
-			while 1:
-				temp,pres,hum,alt = bme280_read()
-			#	for i in range(len(bmedata)):
-			#		print(str(bmedata[i]) + "\t", end="")
-				print(str(pres)+"	"+str(alt)+"		"+str(temp))
-				f.write(str(pres)+ "\t" + str(alt) + "\t"+str(temp))
-				f.write("\n")
-				time.sleep(1)
-		except KeyboardInterrupt:
-			print("\r\n")
+	try:
+		while 1:
+			temp,pres,hum,alt = bme280_read()
+			print(str(pres) + "\t" + str(alt) + "\t" + str(temp) + "\t" + str(hum))
+			#with open("preslog.txt","w")as f:
+			#	f.write(str(pres)+ "\t" + str(alt) + "\t"+str(temp) + "\t" + str(hum) + "\n")
+			time.sleep(0.8)
+	except KeyboardInterrupt:
+		print("\r\n")
+	except Exception as e:
+		print(e.message())
