@@ -78,7 +78,7 @@ def motor(left, right, t = 0.001, mode = 0):
 		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
 
 		if(mode == 1):
-			time.time(t)
+			time.sleep(t)
 		else:
 			time.sleep(0.005)
 
@@ -88,8 +88,8 @@ def motor_stop():
 
 if __name__ == "__main__":
 	try:
-		motor(70, 70, 3)
-		motor(-70, -70, 3)
+		motor(50, 0, 3)
+		motor(0, 50, 3)
 		motor(0, 0, 2, 0)
 		motor_stop()
 	except KeyboardInterrupt:
