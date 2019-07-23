@@ -85,8 +85,8 @@ def motor_stop():
 
 if __name__ == "__main__":
 	try:
-		motor(70, 0, 3)
-		motor(0, 70, 3)
+		motor(70, 70, 3)
+		motor(-70, -70, 3)
 		motor(0, 0, 2, 0)
 		motor_stop()
 	except KeyboardInterrupt:
