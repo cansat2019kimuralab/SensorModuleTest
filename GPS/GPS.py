@@ -31,11 +31,14 @@ def readGPS():
 		#gsa = gpsData.find('$GPGSA,')
 		#gsv = gpsData.find('$GPGSV,')
 		#vtg = gpsData.find('$GPVTGM')
+		#print(gpsData[rmc:rmc+20].find("V"))
 		if(gpsData[rmc:rmc+20].find("V") != -1):	#Checking GPS Status
+			#print("a")
 			#Status V
-			Lat = -1.0
-			Lon = 0.0
+			utc = -1.0
+			Lat = 0.0
 		elif(gpsData[rmc:rmc+20].find("A") != -1):
+			#print("b")
 			#Status A
 			gprmc = gpsData[rmc:rmc+72].split(",")
 			gpgga = gpsData[gga:gga+72].split(",")
@@ -49,7 +52,7 @@ def readGPS():
 					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				except:
-					Lat = -1.0
+					Lat = 0.0
 					Lon = 0.0
 				if(gprmc[4] == "S"):
 					Lat = Lat * -1
@@ -63,7 +66,7 @@ def readGPS():
 					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				except:
-					Lat = -1.0
+					Lat = 0.0
 					Lon = 0.0
 				if(gpgga[3] == "S"):
 					Lat = Lat * -1.0
@@ -77,12 +80,14 @@ def readGPS():
 				sHeight=gpgga[9]
 				gHeight=gpgga[11]
 		else:
+			#print("c")
 			#No Status Data
 			utc = -1.0
 			Lat = -1.0
 			Lon = 0.0
 
 	value = [utc, Lat, Lon, sHeight, gHeight]
+	#print(value)
 	return value
 
 def closeGPS():
@@ -117,10 +122,11 @@ if __name__ == '__main__':
 		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
 			utc,lat,lon,sHeight,gHeight = readGPS()
-			if(utc == -1):
-				if(lat == -1):
-					#print("Reading GPS Error")
-					pass
+			#print(utc, lat, lon)
+			if(utc == -1.0):
+				if(lat == -1.0):
+					print("Reading GPS Error")
+					#pass
 				else:
 					print("Status V")
 			else:
@@ -128,7 +134,7 @@ if __name__ == '__main__':
 				#with open("gps.txt", "a") as f:
 				#	f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
 
-			time.sleep(0.1)
+			time.sleep(1)
 	except KeyboardInterrupt:
 		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
