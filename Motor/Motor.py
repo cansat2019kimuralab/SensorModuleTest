@@ -49,6 +49,11 @@ def motor(left, right, t = 0.001, mode = 0):
 		#print(str(motorPL) + "\t" + str(motorPR))
 		motorPL = int(motorPL * 10000)
 		motorPR = int(motorPR * 10000)
+
+		if(mode == 1):
+			motorPL = int(left * 10000)
+			motorPR = int(right * 10000)
+
 		if motorPL > 0:
 			pi1.write(AIN1, 1)
 			pi1.write(AIN2, 0)
@@ -69,14 +74,12 @@ def motor(left, right, t = 0.001, mode = 0):
 			pi1.write(BIN1, 0)
 			pi1.write(BIN1, 0)
 
+		pi1.hardware_PWM(PWMA, 200, abs(motorPL))
+		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+
 		if(mode == 1):
-			motorPL = int(left * 10000)
-			motorPR = int(right * 10000)
-			pi1.hardware_PWM(PWMA, 200, abs(motorPL))
-			pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+			time.time(t)
 		else:
-			pi1.hardware_PWM(PWMA, 200, abs(motorPL))
-			pi1.hardware_PWM(PWMB, 200, abs(motorPR))
 			time.sleep(0.005)
 
 def motor_stop():
