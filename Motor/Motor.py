@@ -62,7 +62,7 @@ def motor(left, right, t = 0.001, mode = 0):
 			pi1.write(AIN2, 1)
 		else:
 			pi1.write(AIN1, 0)
-			pi1.write(BIN1, 0)
+			pi1.write(AIN2, 0)
 
 		if motorPR > 0:
 			pi1.write(BIN1, 1)
@@ -72,8 +72,9 @@ def motor(left, right, t = 0.001, mode = 0):
 			pi1.write(BIN2, 1)
 		else:
 			pi1.write(BIN1, 0)
-			pi1.write(BIN1, 0)
+			pi1.write(BIN2, 0)
 
+		#print(motorPL, motorPR)
 		pi1.hardware_PWM(PWMA, 200, abs(motorPL))
 		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
 
