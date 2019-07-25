@@ -133,8 +133,12 @@ def readLux():
     #sensor2.setHighGain()
 	#sensor2.setIntegrationTime('default')
 
-	lux1 = sensor1.getLux()
-	lux2 = sensor2.getLux()
+	try:
+		lux1 = sensor1.getLux()
+		lux2 = sensor2.getLux()
+	except:
+		lux1 = -1.0
+		lux2 = -1.0
 
 	value = [lux1, lux2]
 	return value
