@@ -1,8 +1,9 @@
 # Motor  
 ## Motor.py  
 モータライブラリ  
-- Motor(left, right, time=0.001, mode=1) : Motorを動かす関数  
+- Motor(left, right, time=0.001, mode=0) : Motorを動かす関数  
   引数　: left, right, time, mode　左右のモータのパワーとその動作時間、モード設定（省略可）  
+        mode:0→加速動作、1→瞬時動作
   戻り値: なし  
   関数内で加速、減速するようにコーディングしている  
   繰り返しの中で使用する場合は第3引数は省略する  
