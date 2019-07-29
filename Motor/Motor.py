@@ -82,6 +82,8 @@ def motor(left, right, t = 0.001, mode = 0):
 			time.sleep(t)
 		else:
 			time.sleep(0.005)
+		
+		return [motorPL, motorPR]
 
 def motor_stop():
 	pi1.hardware_PWM(PWMA, 200, 0)
