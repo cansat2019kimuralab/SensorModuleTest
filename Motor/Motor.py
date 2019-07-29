@@ -1,5 +1,6 @@
 import pigpio
 import time
+import traceback
 
 AIN1 = 24
 AIN2 = 23
@@ -22,12 +23,14 @@ motor_prior_r = 0	#Right Motor Speed Prior
 def motor(left, right, t = 0.001, mode = 0):
 	global motor_prior_l
 	global motor_prior_r
-	t1 = time.time()
+	motorPL = 0
+	motorPR = 0
 
 	#if motor wiring changed, check these val
-	left = left * (-1)
+	left = left * (1)
 	right = right * (-1)
 
+	t1 = time.time()
 	while(time.time() - t1 < t):
 		#print(motor_prior_l, motor_prior_r)
 		if left < motor_prior_l:
@@ -82,8 +85,8 @@ def motor(left, right, t = 0.001, mode = 0):
 			time.sleep(t)
 		else:
 			time.sleep(0.005)
-		
-		return [motorPL, motorPR]
+
+	return [motorPL, motorPR]
 
 def motor_stop():
 	pi1.hardware_PWM(PWMA, 200, 0)
@@ -97,6 +100,6 @@ if __name__ == "__main__":
 		motor_stop()
 	except KeyboardInterrupt:
 		motor_stop()
-	except Exception as e:
-		print(e.message)
+	except:
+		print(traceback.format_exc())
 		motor_stop()
