@@ -1,6 +1,6 @@
 # 各センサ、モジュールのテストプログラムを保管するリポジトリ
 ---
-## BME280  （*気圧センサ*）
+## BME280  （　*気圧センサ*　）
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/BME280/BME280.md)
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/BME280/BME280.py)
 ---
