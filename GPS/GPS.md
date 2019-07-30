@@ -12,7 +12,7 @@
 ---
 ## closeGPS():GPSの終了処理  
 - 引数　：なし  
-^ 戻り値：なし　
+- 戻り値：なし　
 ---
 ## Cal_RhoAng(lat_a,lon_a,lat_b,lon_b):２点間の距離、方位を求める関数  
 - 引数　：[lat_a,lon_a,lat_b,lon_b] ２点の緯度、経度（A：始点、B：終点）   
