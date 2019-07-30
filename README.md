@@ -6,7 +6,7 @@
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/BME280/BME280.py)
 ---
 ## BMX055
-### 九軸センサ
+#### 九軸センサ
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/BMX055/BMX055.md)
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/BMX055/BMX055.py)
 ---
