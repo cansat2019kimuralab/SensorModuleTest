@@ -15,7 +15,7 @@
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Camera/Capture.py)
 ---
 ## GPS
-### じーぴーえす？？？？？？
+### じーぴーえす？？？？？？ 全地球測位システム
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/GPS/GPS.md)
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/GPS/GPS.md)
 ---
