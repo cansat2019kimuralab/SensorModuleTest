@@ -9,7 +9,7 @@
 # Capture.py
 ## Capture(photopath)
 ### 引数:  
- - 保存先のpath 
-戻り値:  
- - photoname(形式：jpg, サイズ：QVGA（320,240） 
+ - photopath:画像のpath  
+### 戻り値:  
+ - photoname:撮影した画像の名前　(形式：jpg, サイズ：QVGA(320,240)) 
 ---
