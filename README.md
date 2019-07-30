@@ -16,7 +16,11 @@
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/GPS/GPS.md)
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/GPS/GPS.md)
 ---
-## motor（モーター）
+## Melting（溶断回路）
+- [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Melting/Melting.md)
+- [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Melting/Melting.py)
+---
+## Motor（モーター）
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Motor/Motor.md)
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Motor/Motor.py)
 ---
