@@ -12,48 +12,42 @@ MAG_REGISTER_ADDRESS = 0x42
 i2c = SMBus(1)
 
 def bmx055_setup():
-	'''
-	BMX055セットアップ
-	'''
-	time.sleep(0.5)
-
+	# --- BMX055�Setup --- #
 	#Initialize ACC
-	i2c.write_byte_data(ACC_ADDRESS, 0x0F, 0x03)
+	i2c.write_byte_data(ACC_ADDRESS, 0x0F, 0x0C)	#Acc Scale  datasheet p57
 	time.sleep(0.1)
-	i2c.write_byte_data(ACC_ADDRESS, 0x10, 0x08)
+	i2c.write_byte_data(ACC_ADDRESS, 0x10, 0x0F)	#Acc PMU  datasheet p57
 	time.sleep(0.1)
-	i2c.write_byte_data(ACC_ADDRESS, 0x11, 0x00)
+	i2c.write_byte_data(ACC_ADDRESS, 0x11, 0x00)	#datasheet p58
 	time.sleep(0.1)
 
 	#Initialize GYR
-	i2c.write_byte_data(GYR_ADDRESS, 0x0F, 0x04)
+	i2c.write_byte_data(GYR_ADDRESS, 0x0F, 0x00)	#Gyro Scale  datasheet p99
 	time.sleep(0.1)
-	i2c.write_byte_data(GYR_ADDRESS, 0x10, 0x07)
+	i2c.write_byte_data(GYR_ADDRESS, 0x10, 0x07)	#Acc PMU  datasheet p100
 	time.sleep(0.1)
-	i2c.write_byte_data(GYR_ADDRESS, 0x11, 0x00)
+	i2c.write_byte_data(GYR_ADDRESS, 0x11, 0x00)	#datasheet p100
 	time.sleep(0.1)
 
 	#Initialize MAG
-	data = i2c.read_byte_data(MAG_ADDRESS, 0x4B)
+	data = i2c.read_byte_data(MAG_ADDRESS, 0x4B)	#datasheet p134
 	if(data == 0):
 		i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x83)
 		time.sleep(0.1)
 
-	i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x01)
+	i2c.write_byte_data(MAG_ADDRESS, 0x4B, 0x01)	#datasheet p134
 	time.sleep(0.1)
-	i2c.write_byte_data(MAG_ADDRESS, 0x4C, 0x00)
+	i2c.write_byte_data(MAG_ADDRESS, 0x4C, 0x38)	#datasheet p135
 	time.sleep(0.1)
-	i2c.write_byte_data(MAG_ADDRESS, 0x4E, 0x84)
+	i2c.write_byte_data(MAG_ADDRESS, 0x4E, 0x84)	#datasheet p137
 	time.sleep(0.1)
-	i2c.write_byte_data(MAG_ADDRESS, 0x51, 0x04)
+	i2c.write_byte_data(MAG_ADDRESS, 0x51, 0x04)	#datasheet p139
 	time.sleep(0.1)
-	i2c.write_byte_data(MAG_ADDRESS, 0x52, 0x0F)
+	i2c.write_byte_data(MAG_ADDRESS, 0x52, 0x0F)	#datasheet p139
 	time.sleep(0.1)
 
 def acc_dataRead():
-	'''
-	加速度データ読み込み
-	'''
+	# --- Read Acc Data --- #
 	accData = [0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
 	for i in range(6):
@@ -66,14 +60,12 @@ def acc_dataRead():
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
 		value[i] = value[i] if value[i] < 2048 else value[i] - 4096
-		value[i] = value[i] * 0.0098
+		value[i] = value[i] * 0.0098 * 8
 
 	return value
 
 def gyr_dataRead():
-	'''
-	ジャイロデータ読み込み
-	'''
+	# --- Read Gyro Data --- "
 	gyrData = [0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
 	for i in range(6):
@@ -86,14 +78,12 @@ def gyr_dataRead():
 	for i in range(3):
 		value[i] = (gyrData[2*i+1] * 256) + gyrData[i]
 		value[i] = value[i] - 65536 if value[i] > 32767 else value[i]
-		value[i] = value[i] * 0.0038
+		value[i] = value[i] * 0.0038 * 16
 
 	return value
 
 def mag_dataRead():
-	'''
-	地磁気データ読み込み
-	'''
+	# --- Read Mag Data --- #
 	magData = [0, 0, 0, 0, 0, 0, 0, 0]
 	value = [0.0, 0.0, 0.0]
 	for i in range(8):
@@ -116,9 +106,7 @@ def mag_dataRead():
 	return value
 
 def bmx055_read():
-	'''
-	全データ読み込み
-	'''
+	# --- Read BMX055 Data --- #
 	accx, accy, accz = acc_dataRead()
 	gyrx, gyry, gyrz = gyr_dataRead()
 	magx, magy, magz = mag_dataRead()
@@ -130,7 +118,7 @@ def bmx055_read():
 
 	value = [accx, accy, accz, gyrx, gyry, gyrz, magx, magy, magz]
 
-	#数値丸め
+	# --- Round Data --- #
 	for i in range(len(value)):
 		if value[i] is not None:
 			value[i] = round(value[i], 4)
