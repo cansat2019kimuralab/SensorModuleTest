@@ -24,7 +24,7 @@
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/IM920/im920.md)
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/IM920/IM920.py)
 ---
-##　TSL2561（照度センサ）
+## TSL2561（照度センサ）
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/TSL2561/TSL2561.md)
 - [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/TSL2561/TSL2561.py)
 ---
