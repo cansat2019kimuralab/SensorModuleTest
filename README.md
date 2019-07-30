@@ -10,7 +10,7 @@
 ---
 ## [Camera]
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Camera/Camera.md)
-- [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Camera/Camera.py)
+- [ソースコード](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/Camera/Capture.py)
 ---
 ## [GPS]
 - [仕様書](https://github.com/cansat2019kimuralab/SensorModuleTest/blob/master/GPS/GPS.md)
