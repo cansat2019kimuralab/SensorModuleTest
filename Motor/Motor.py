@@ -32,6 +32,25 @@ def motor(left, right, t = 0.001, mode = 0):
 
 	t1 = time.time()
 	while(time.time() - t1 < t):
+		if mode == 2:
+			while left + 10.0 < motor_prior_l:
+				motorPL = motor_prior_l + 3
+				motorPR = motor_prior_r + 3
+				motor_prior_l = motorPL
+				motor_prior_r = motorPR
+				motorPL = int(motorPL * 10000)
+				motorPR = int(motorPR * 10000)
+
+				pi1.write(AIN1, 1)
+				pi1.write(AIN2, 0)
+				pi1.write(BIN1, 1)
+				pi1.write(BIN2, 0)
+
+				#print(motorPL, motorPR)
+				pi1.hardware_PWM(PWMA, 200, abs(motorPL))
+				pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+			mode = 0
+
 		#print(motor_prior_l, motor_prior_r)
 		if left < motor_prior_l:
 			motorPL = motor_prior_l  - 1
