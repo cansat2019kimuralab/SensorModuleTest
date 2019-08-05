@@ -23,15 +23,34 @@ motor_prior_r = 0	#Right Motor Speed Prior
 def motor(left, right, t = 0.001, mode = 0):
 	global motor_prior_l
 	global motor_prior_r
-	motorPL = 0
-	motorPR = 0
+	motorPL = 0.0
+	motorPR = 0.0
 
 	#if motor wiring changed, check these val
-	left = left * (1)
-	right = right * (-1)
+	left = left * (1.0)
+	right = right * (-1.0)
 
 	t1 = time.time()
 	while(time.time() - t1 < t):
+		if mode == 2:
+			while left + 10.0 < motor_prior_l:
+				motorPL = motor_prior_l + 3
+				motorPR = motor_prior_r + 3
+				motor_prior_l = motorPL
+				motor_prior_r = motorPR
+				motorPL = int(motorPL * 10000)
+				motorPR = int(motorPR * 10000)
+
+				pi1.write(AIN1, 1)
+				pi1.write(AIN2, 0)
+				pi1.write(BIN1, 1)
+				pi1.write(BIN2, 0)
+
+				#print(motorPL, motorPR)
+				pi1.hardware_PWM(PWMA, 200, abs(motorPL))
+				pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+			mode = 0
+
 		#print(motor_prior_l, motor_prior_r)
 		if left < motor_prior_l:
 			motorPL = motor_prior_l  - 1
@@ -96,6 +115,8 @@ if __name__ == "__main__":
 	try:
 		motor(50, 0, 3)
 		motor(0, 50, 3)
+		motor(-50, 0, 3)
+		motor(0, -50, 3)
 		motor(0, 0, 2, 0)
 		motor_stop()
 	except KeyboardInterrupt:
