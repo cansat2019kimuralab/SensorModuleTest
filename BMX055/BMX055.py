@@ -14,7 +14,7 @@ i2c = SMBus(1)
 def bmx055_setup():
 	# --- BMX055„Setup --- #
 	#Initialize ACC
-	i2c.write_byte_data(ACC_ADDRESS, 0x0F, 0x0C)	#Acc Scale  datasheet p57
+	i2c.write_byte_data(ACC_ADDRESS, 0x0F, 0x03)	#Acc Scale  datasheet p57
 	time.sleep(0.1)
 	i2c.write_byte_data(ACC_ADDRESS, 0x10, 0x0F)	#Acc PMU  datasheet p57
 	time.sleep(0.1)
@@ -60,7 +60,7 @@ def acc_dataRead():
 	for i in range(3):
 		value[i] = (accData[2*i+1] * 16) + (int(accData[2*i] & 0xF0) / 16)
 		value[i] = value[i] if value[i] < 2048 else value[i] - 4096
-		value[i] = value[i] * 0.0098 * 8
+		value[i] = value[i] * 0.0098 * 1
 
 	return value
 
