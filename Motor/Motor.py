@@ -28,7 +28,7 @@ def motor(left, right, t = 0.001, mode = 0):
 
 	#if motor wiring changed, check these val
 	left = left * (1.0)
-	right = right * (-1.0)
+	right = right * (1.0)
 
 	t1 = time.time()
 	while(time.time() - t1 < t):
@@ -113,12 +113,14 @@ def motor_stop():
 
 if __name__ == "__main__":
 	try:
-		motor(50, 0, 3)
-		motor(0, 50, 3)
-		motor(-50, 0, 3)
-		motor(0, -50, 3)
+		#motor(80, 80, 10)
+		motor(40, 45, 3)
+		#motor(0, 50, 3)
+		#motor(-50, 0, 3)
+		#motor(0, -50, 3)
 		motor(0, 0, 2, 0)
 		motor_stop()
+
 	except KeyboardInterrupt:
 		motor_stop()
 	except:
