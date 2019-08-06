@@ -4,10 +4,10 @@ import picamera
 import Other
 
 
-def Capture(path):
+def Capture(path, width = 320, height = 240):
 	with picamera.PiCamera() as camera:
 		camera.rotation = 270
-		camera.resolution = (320,240)	#(width,height)
+		camera.resolution = (width,height)	#(width,height)
 		filepath = Other.fileName(path,"jpg")
 		camera.capture(filepath)
 	return filepath
