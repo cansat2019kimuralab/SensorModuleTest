@@ -27,8 +27,14 @@ GEODETIC_DATUM = {
 ITERATION_LIMIT = 1000
 
 def openGPS():
-	pi.set_mode(RX, pigpio.INPUT)
-	pi.bb_serial_read_open(RX, 9600, 8)
+	try:
+		pi.set_mode(RX, pigpio.INPUT)
+		pi.bb_serial_read_open(RX, 9600, 8)
+	except pigpio.error as e:
+		#print("Open GPS Error")
+		pi.set_mode(RX, pigpio.INPUT)
+		pi.bb_serial_read_close(RX)
+		pi.bb_serial_read_open(RX, 9600, 8)
 
 def readGPS():
 	utc = -1.0
@@ -42,7 +48,7 @@ def readGPS():
 	if count:
 		gpsData = data.decode('utf-8', 'replace')
 		#print(gpsData)
-		
+
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
 		#gsa = gpsData.find('$GPGSA,')
@@ -134,7 +140,7 @@ def Cal_RhoAng(lat_a, lon_a, lat_b ,lon_b):
 def vincentyInverse(lat1, lon1, lat2, lon2, ellipsoid=None):
     if lat1 == lat2 and lon1 == lon2:
         return 0.0, 0.0
-	
+
     # Calculate Short Axis Radius
     # if Ellipsoid is not specified, it uses GRS80
     a, f = GEODETIC_DATUM.get(ellipsoid, GEODETIC_DATUM.get(ELLIPSOID_GRS80))
@@ -198,7 +204,7 @@ if __name__ == '__main__':
 		openGPS()
 		with open("gps.txt", "a") as f:
 			pass
-		print ("DATA - SOFTWARE SERIAL:")
+		#print ("DATA - SOFTWARE SERIAL:")
 		while 1:
 			utc,lat,lon,sHeight,gHeight = readGPS()
 			#print(utc, lat, lon)
@@ -217,7 +223,6 @@ if __name__ == '__main__':
 	except KeyboardInterrupt:
 		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
-	except Exception as e:
+	except:
 		closeGPS()
 		print ("\r\nError, Serial Cloesd")
-		print(e.message)
