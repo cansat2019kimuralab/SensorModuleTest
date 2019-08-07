@@ -27,7 +27,7 @@ def motor(left, right, t = 0.001, mode = 0):
 	motorPR = 0.0
 
 	#if motor wiring changed, check these val
-	left = left * (1.0)
+	left = left * (-1.0)
 	right = right * (1.0)
 
 	t1 = time.time()
@@ -113,8 +113,8 @@ def motor_stop():
 
 if __name__ == "__main__":
 	try:
-		#motor(80, 80, 10)
-		motor(40, 45, 3)
+		motor(30, 30, 10)
+		#motor(50, 0, 3)
 		#motor(0, 50, 3)
 		#motor(-50, 0, 3)
 		#motor(0, -50, 3)
