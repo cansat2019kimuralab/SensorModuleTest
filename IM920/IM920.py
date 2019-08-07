@@ -5,7 +5,8 @@ import binascii
 import signal
 import sys
 import platform
-
+import pigpio
+import time
 portnumber = '/dev/ttyAMA0'
 
 def signal_handler(signal, frame):
@@ -25,8 +26,8 @@ def setSerial(mybaudrate = 19200):
 		baudrate = mybaudrate,
 		bytesize = serial.EIGHTBITS,
 		parity   = serial.PARITY_NONE,
-		timeout  = None,
-		xonxoff  = False,
+		timeout  = 3,
+		xonxoff  = True,
 		rtscts   = False,
 		writeTimeout = None,
 		dsrdtr	   = False,
@@ -215,6 +216,17 @@ def Rdpo(mybaudrate = 19200):
 		print('送信出力:' + '3  10dBm(10mW)')
 	#com.readline()
 	com.close()
+def read(mybaudrate=19200):
+	re=""
+	try:
+		com=setSerial(mybaudrate)
+		com.flushInput()
+		re=com.readline().decode('utf-8').strip()
+		com.fludhOutput()
+
+	except Exception:
+		print("no data")
+	return re
 
 def Strt(setspeed, mybaudrate = 19200):
 	'''
@@ -303,8 +315,9 @@ def Send(args, mybaudrate = 19200):
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'TXDA' + binascii.b2a_hex(args.encode('utf-8')) + b'\r\n')
-	com.readline()
+	#com.readline()
 	com.flushOutput()
+	print(com.readline().strip())
 	com.close()
 
 	
@@ -314,13 +327,16 @@ def IMSend(byte, mybaudrate = 19200):
 	mybaudrate:ボーレート
 	args:送信したい文字列 (数字の場合も文字列型にすること)
 	'''
-	#print(byte)
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'TXDA' + binascii.b2a_hex(byte) + b'\r\n')
-	com.readline()
+	data = com.readline()
+	print(str(binascii.b2a_hex(byte)))
+#	time.sleep(0.08)
 	com.flushOutput()
+#	print(com.readline().strip())
 	com.close()
+	return data
 
 
 def Reception(mybaudrate = 19200):
@@ -346,9 +362,11 @@ def Reception(mybaudrate = 19200):
 			cngtext += chr(int(x,16))
 
 	except Exception:
+		cngtext = ""
 		print("not input data")
 
 	return cngtext
+	com.close()
 
 def Repeater(mybaudrate = 19200):
 	'''
@@ -378,5 +396,9 @@ def Rprm(mybaudrate = 19200):
 
 
 if __name__ == '__main__':
-	Send('Hello')  #文字列送信
-	#Rdid()		#固有ID 
+	pi=pigpio.pi()
+	pi.set_mode(22,pigpio.OUTPUT)
+	pi.write(22,1)
+	time.sleep(2)
+	IMSend(b"114514")  #文字列送信
+	Reception()
