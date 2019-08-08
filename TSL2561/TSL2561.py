@@ -88,7 +88,7 @@ class Illumi:
 
         # 65535の時はエラー出力にする実装
         if raw[0] == 65535 or raw[1] == 65535:
-            return "Range Over"
+            return 10000
 
         # センサ設定により生データをスケールする
         VLRD = raw[0] * self.scale
