@@ -47,26 +47,19 @@ def readGPS():
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
 		gpsData = data.decode('utf-8', 'replace')
-		#print(gpsData)
 
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
-		#gsa = gpsData.find('$GPGSA,')
-		#gsv = gpsData.find('$GPGSV,')
-		#vtg = gpsData.find('$GPVTGM')
-		#print(gpsData[rmc:rmc+20].find("V"))
 		if(gpsData[rmc:rmc+20].find("V") != -1):	#Checking GPS Status
-			#print("a")
-			#Status V
+			# --- Status V --- #
 			utc = -1.0
 			Lat = 0.0
 		elif(gpsData[rmc:rmc+20].find("A") != -1):
-			#print("b")
-			#Status A
+			# --- Status A --- #
 			gprmc = gpsData[rmc:rmc+72].split(",")
 			gpgga = gpsData[gga:gga+72].split(",")
 
-			#Read Lat and Lon
+			# --- Read Lat and Lon --- #
 			if len(gprmc) >= 7:
 				utc = gprmc[1]
 				lat = gprmc[3]
@@ -98,19 +91,26 @@ def readGPS():
 			else:
 				pass
 
-			#Read Height
+			# --- Read Height --- #
 			if len(gpgga) >= 12:
-				sHeight=gpgga[9]
-				gHeight=gpgga[11]
+				if(isinstance(gpgga[9], int) or isinstance(gpgga[9], float)):
+					sHeight = gpgga[9]
+				else:
+					sHeight = 0.0
+				if(isinstance(gpgga[9], int) or isinstance(gpgga[9], float)):
+					gHeight = gpgga[11]
+				else:
+					gHeight = 0.0		
 		else:
-			#print("c")
-			#No Status Data
+			# --- No Status Data --- #
 			utc = -1.0
 			Lat = -1.0
 			Lon = 0.0
 
 	value = [utc, Lat, Lon, sHeight, gHeight]
-	#print(value)
+	for i in range(len(value)):
+		if not (isinstance(value[i], int) or isinstance(value[i], float)):
+			value[i] = 0
 	return value
 
 def closeGPS():
