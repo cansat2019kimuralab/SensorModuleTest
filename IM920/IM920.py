@@ -216,16 +216,17 @@ def Rdpo(mybaudrate = 19200):
 		print('送信出力:' + '3  10dBm(10mW)')
 	#com.readline()
 	com.close()
+
 def read(mybaudrate=19200):
 	re=""
 	try:
-		com=setSerial(mybaudrate)
+		com = setSerial(mybaudrate)
 		com.flushInput()
-		re=com.readline().decode('utf-8').strip()
-		com.fludhOutput()
-
+		re = str(com.readline().decode('utf-8').strip())
+		com.flushOutput()
 	except Exception:
-		print("no data")
+		re = ""
+		#print("no data")
 	return re
 
 def Strt(setspeed, mybaudrate = 19200):
@@ -363,7 +364,7 @@ def Reception(mybaudrate = 19200):
 
 	except Exception:
 		cngtext = ""
-		print("not input data")
+		#print("not input data")
 
 	return cngtext
 	com.close()
