@@ -10,17 +10,12 @@ import time
 portnumber = '/dev/ttyAMA0'
 
 def signal_handler(signal, frame):
-	'''
-	ctrl+cの命令
-	'''
-	print('exit')
+	# --- Command of "Ctrl + C" --- #
+	#print('exit')
 	sys.exit()
 
 def setSerial(mybaudrate = 19200):
-	'''
-	serial.Serialの設定
-	mybaudrate:ボーレート
-	'''
+	# --- Configutation of serial.Serial --- #
 	com = serial.Serial(
 		port	 = portnumber,
 		baudrate = mybaudrate,
@@ -33,30 +28,24 @@ def setSerial(mybaudrate = 19200):
 		dsrdtr	   = False,
 		interCharTimeout = None)
 
-	#bufferクリア
+	# --- Clear Buffer --- #
 	com.flushInput()
 	com.flushOutput()
 	return com
 
 def Rdid(mybaudrate = 19200):
-	'''
-	固有IDの読み出し
-	mybaudrate:ボーレート
-	'''
+	# --- Read Own ID --- #
 	com = setSerial(mybaudrate)
 	#print(com)
 	com.flushInput()
 	com.write(b'RDID' + b'\r\n')
 	com.flushOutput()
 	#print(dir(com))
-	print('固有ID:' + str(com.readline().strip()))
+	#print('固有ID:' + str(com.readline().strip()))
 	com.close()
 
 def Rrid(mybaudrate = 19200):
-	'''
-	受信IDの読み出し
-	mybaudrate:ボーレート
-	'''
+	# --- Read Recieve Device ID --- #
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'RRID' + b'\r\n')
@@ -65,10 +54,8 @@ def Rrid(mybaudrate = 19200):
 	com.close()
 
 def Stch(setch, mybaudrate = 19200):
+	# --- Configuration of Communication Channel --- #
 	'''
-	無線通信チャンネルの設定
-	mybaudrate:現在のボーレート
-	setch:セットするチャンネル(文字列でもってくること)
 		01 920.6MHz	09 922.2MHz
 		02 920.8MHz	10 922.4MHz
 		03 921.0MHz	11 922.6MHz
@@ -92,53 +79,63 @@ def Stch(setch, mybaudrate = 19200):
 	com.close()
 
 def Rdch(mybaudrate = 19200):
-	'''
-	無線通信チャンネルの読み出し
-	mybaudrate:現在のボーレート
-	'''
+	# --- Read Communication Channel --- #
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'RDCH' + b'\r\n')
 	com.flushOutput()
 	ch = com.readline().strip()
 	if ch in ['01']:
-		print('無線通信チャンネル:' + '01 920.6MHz')
+		pass
+		#print('無線通信チャンネル:' + '01 920.6MHz')
 	elif ch in ['02']:
-		print('無線通信チャンネル:' + '02 920.8MHz')
+		pass
+		#print('無線通信チャンネル:' + '02 920.8MHz')
 	elif ch in ['03']:
-		print('無線通信チャンネル:' + '03 921.0MHz')
+		pass
+		#print('無線通信チャンネル:' + '03 921.0MHz')
 	elif ch in ['04']:
-		print('無線通信チャンネル:' + '04 921.2MHz')
+		pass
+		#print('無線通信チャンネル:' + '04 921.2MHz')
 	elif ch in ['05']:
-		print('無線通信チャンネル:' + '05 921.4MHz')
+		pass
+		#print('無線通信チャンネル:' + '05 921.4MHz')
 	elif ch in ['06']:
-		print('無線通信チャンネル:' + '06 921.6MHz')
+		pass
+		#print('無線通信チャンネル:' + '06 921.6MHz')
 	elif ch in ['07']:
-		print('無線通信チャンネル:' + '07 921.8MHz')
+		pass
+		#print('無線通信チャンネル:' + '07 921.8MHz')
 	elif ch in ['08']:
-		print('無線通信チャンネル:' + '08 922.0MHz')
+		pass
+		#print('無線通信チャンネル:' + '08 922.0MHz')
 	elif ch in ['09']:
-		print('無線通信チャンネル:' + '09 922.2MHz')
+		pass
+		#print('無線通信チャンネル:' + '09 922.2MHz')
 	elif ch in ['10']:
-		print('無線通信チャンネル:' + '10 922.4MHz')
+		pass
+		#print('無線通信チャンネル:' + '10 922.4MHz')
 	elif ch in ['11']:
-		print('無線通信チャンネル:' + '11 922.6MHz')
+		pass
+		#print('無線通信チャンネル:' + '11 922.6MHz')
 	elif ch in ['12']:
-		print('無線通信チャンネル:' + '12 922.8MHz')
+		pass
+		#print('無線通信チャンネル:' + '12 922.8MHz')
 	elif ch in ['13']:
-		print('無線通信チャンネル:' + '13 923.0MHz')
+		pass
+		#print('無線通信チャンネル:' + '13 923.0MHz')
 	elif ch in ['14']:
-		print('無線通信チャンネル:' + '14 923.2MHz')
+		pass
+		#print('無線通信チャンネル:' + '14 923.2MHz')
 	elif ch in ['15']:
-		print('無線通信チャンネル:' + '15 923.4MHz')
+		pass
+		#print('無線通信チャンネル:' + '15 923.4MHz')
 	#com.readline()
 	com.close()
 
 def Sbrt(setbaudrate, mybaudrate = 19200):
+	# --- Configuration of Baudrate --- #
 	'''
-	ボーレート(シリアル通信速度)の設定
-	mybaudrate:現在のボーレート
-	setbaudrate:セットするボーレート(文字列でもってくること)
 		0 1200bps
 		1 2400bps
 		2 4800bps
@@ -160,23 +157,18 @@ def Sbrt(setbaudrate, mybaudrate = 19200):
 	com.close()
 
 def Rdrs(mybaudrate = 19200):
-	'''
-	RSSI値(現在の信号強度レベル)読み出し
-	mybaudrate:現在のボーレート
-		ASCII文字(0~9,A~F)2文字で出力
-	'''
+	# --- Read RSSI --- #
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'RDRS' + b'\r\n')
 	com.flushOutput()
-	print('信号強度:' + str(com.readline().strip()))
+	#print('信号強度:' + str(com.readline().strip()))
 	#com.readline()
 	com.close()
 
 def Stpo(setoutput, mybaudrate = 19200):
+	# --- Configuraiton of Transmission Output --- #
 	'''
-	送信出力の設定
-	mybaudrate:現在のボーレート
 	setoutput:セットする送信出力(文字列でもってくること)
 		1 -10dBm(0.1mW)
 		2   0dBm(1mW)
@@ -196,9 +188,8 @@ def Stpo(setoutput, mybaudrate = 19200):
 	com.close()
 
 def Rdpo(mybaudrate = 19200):
+	# --- Read Transmission Output --- #
 	'''
-	送信出力読み出し
-	mybaudrate:現在のボーレート
 		1 -10dBm(0.1mW)
 		2   0dBm(1mW)
 		3  10dBm(10mW)
@@ -209,11 +200,14 @@ def Rdpo(mybaudrate = 19200):
 	com.flushOutput()
 	op = com.readline().strip()
 	if op in ['1']:
-		print('送信出力:' + '1 -10dBm(0.1mW)')
+		pass
+		#print('送信出力:' + '1 -10dBm(0.1mW)')
 	elif op in ['2']:
-		print('送信出力:' + '2   0dBm(1mW)')
+		pass
+		#print('送信出力:' + '2   0dBm(1mW)')
 	elif op in ['3']:
-		print('送信出力:' + '3  10dBm(10mW)')
+		pass
+		#print('送信出力:' + '3  10dBm(10mW)')
 	#com.readline()
 	com.close()
 
@@ -230,10 +224,8 @@ def read(mybaudrate=19200):
 	return re
 
 def Strt(setspeed, mybaudrate = 19200):
+	#Configuration of Communication Speed --- #
 	'''
-	無線通信速度の設定
-	mybaudrate:現在のボーレート
-	setspeed:セットする無線通信速度(文字列でもってくること)
 		1 高速通信モード(無線通信速度 50kbps)
 		2 長距離モード(無線通信速度 1.25kbps)
 	'''
