@@ -315,9 +315,9 @@ def Send(args, mybaudrate = 19200):
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'TXDA' + binascii.b2a_hex(args.encode('utf-8')) + b'\r\n')
-	#com.readline()
 	com.flushOutput()
-	print(com.readline().strip())
+	#com.readline()
+	#print(com.readline().strip())
 	com.close()
 
 	
@@ -331,10 +331,10 @@ def IMSend(byte, mybaudrate = 19200):
 	com.flushInput()
 	com.write(b'TXDA' + binascii.b2a_hex(byte) + b'\r\n')
 	data = com.readline()
-	print(str(binascii.b2a_hex(byte)))
-#	time.sleep(0.08)
+	#time.sleep(0.08)
 	com.flushOutput()
-#	print(com.readline().strip())
+	#print(str(binascii.b2a_hex(byte)))
+	#print(com.readline().strip())
 	com.close()
 	return data
 
