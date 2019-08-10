@@ -1,6 +1,7 @@
 import sys
 sys.path.append('/home/pi/git/kimuralab/Other')
 import picamera
+import time
 import Other
 
 def Capture(path, width = 320, height = 240):
@@ -13,6 +14,7 @@ def Capture(path, width = 320, height = 240):
 			camera.capture(filepath)
 	except picamera.exc.PiCameraMMALError:
 		filepath = "Null"
+		time.sleep(0.8)
 	return filepath
 
 if __name__ == "__main__":
