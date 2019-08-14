@@ -46,10 +46,13 @@ def readGPS():
 
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
-		gpsData = data.decode('utf-8', 'replace')
+		#print(type(data))
+		if isinstance(data, bytearray):
+			gpsData = data.decode('utf-8', 'replace')
 
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
+		
 		if(gpsData[rmc:rmc+20].find("V") != -1):	#Checking GPS Status
 			# --- Status V --- #
 			utc = -1.0
@@ -62,12 +65,15 @@ def readGPS():
 			# --- Read Lat and Lon --- #
 			if len(gprmc) >= 7:
 				utc = gprmc[1]
+				#print(utc)
 				lat = gprmc[3]
 				lon = gprmc[5]
 				try:
+					utc = float(utc)
 					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				except:
+					utc = 0.0
 					Lat = 0.0
 					Lon = 0.0
 				if(gprmc[4] == "S"):
@@ -79,9 +85,11 @@ def readGPS():
 				lat = gpgga[2]
 				lon = gpgga[4]
 				try:
+					utc = float(utc)
 					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				except:
+					utc = 0.0
 					Lat = 0.0
 					Lon = 0.0
 				if(gpgga[3] == "S"):
@@ -100,7 +108,7 @@ def readGPS():
 				if(isinstance(gpgga[9], int) or isinstance(gpgga[9], float)):
 					gHeight = gpgga[11]
 				else:
-					gHeight = 0.0		
+					gHeight = 0.0
 		else:
 			# --- No Status Data --- #
 			utc = -1.0
