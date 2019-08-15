@@ -52,7 +52,7 @@ def readGPS():
 
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
-		
+
 		if(gpsData[rmc:rmc+20].find("V") != -1):	#Checking GPS Status
 			# --- Status V --- #
 			utc = -1.0
@@ -103,12 +103,25 @@ def readGPS():
 			if len(gpgga) >= 12:
 				if(isinstance(gpgga[9], int) or isinstance(gpgga[9], float)):
 					sHeight = gpgga[9]
+				elif(isinstance(gpgga[9], str)):
+					try:
+						sHeight = float(gpgga[9])
+					except:
+						sHeight = 0.0
 				else:
 					sHeight = 0.0
-				if(isinstance(gpgga[9], int) or isinstance(gpgga[9], float)):
+
+				if(isinstance(gpgga[11], int) or isinstance(gpgga[11], float)):
 					gHeight = gpgga[11]
+				elif(isinstance(gpgga[11], str)):
+					try:
+						gHeight = float(gpgga[11])
+					except:
+						gHeight = 0.0
 				else:
 					gHeight = 0.0
+			else:
+				pass
 		else:
 			# --- No Status Data --- #
 			utc = -1.0
@@ -223,7 +236,7 @@ if __name__ == '__main__':
 				else:
 					print("Status V")
 			else:
-				print(utc, lat, lon)
+				print(utc, lat, lon, sHeight, gHeight)
 				#with open("gps.txt", "a") as f:
 				#	f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
 

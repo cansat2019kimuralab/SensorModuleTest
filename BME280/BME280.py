@@ -140,25 +140,28 @@ def bme280_read():
 	'''
 	データ読み込み
 	'''
-	data = []
-	for i in range (0xF7, 0xF7+8):
-		data.append(bus.read_byte_data(i2c_address,i))
+	try:
+		data = []
+		for i in range (0xF7, 0xF7+8):
+			data.append(bus.read_byte_data(i2c_address,i))
 
-	pres_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
-	temp_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
-	hum_raw  = (data[6] << 8)  |  data[7]
+		pres_raw = (data[0] << 12) | (data[1] << 4) | (data[2] >> 4)
+		temp_raw = (data[3] << 12) | (data[4] << 4) | (data[5] >> 4)
+		hum_raw  = (data[6] << 8)  |  data[7]
 
-	temp=compensate_T(temp_raw)
-	pres=compensate_P(pres_raw)
-	hum=compensate_H(hum_raw)
+		temp=compensate_T(temp_raw)
+		pres=compensate_P(pres_raw)
+		hum=compensate_H(hum_raw)
 
-	MEAN_SEA_LEVEL_PRESSURE = 1013
-	alt = ((temp+273.15)/0.0065)* (pow(MEAN_SEA_LEVEL_PRESSURE / pres, 0.190294957) - 1.0)
-	value = [temp, pres, hum, alt]
+		MEAN_SEA_LEVEL_PRESSURE = 1013
+		alt = ((temp+273.15)/0.0065)* (pow(MEAN_SEA_LEVEL_PRESSURE / pres, 0.190294957) - 1.0)
+		value = [temp, pres, hum, alt]
 
-	for i in range(len(value)):
-		if value[i] is not None:
-			value[i] = round(value[i], 4)
+		for i in range(len(value)):
+			if value[i] is not None:
+				value[i] = round(value[i], 4)
+	except:
+		value = [0.0, 0.0, 0.0, 0.0]
 
 	return value
 
