@@ -24,7 +24,7 @@ if __name__ == '__main__':
 			else:
 				#print(str(utctime) + "  " + str(lat) + " " + str(lon), end="")
 				#print(str(sHeight)+str(gHeight))
-				IM920.Send('g'+str(utctime) + ',' + str(lat) + ',' + str(lon) + ',' + str(sHeight) + ',' + str(gHeight) + ',')
+				IM920.Send('G'+", "+str(utctime) + ',' + str(lat) + ',' + str(lon) + ',' + str(sHeight) + ',' + str(gHeight) + ',')
 				with open("gps.txt", "a") as f:
 					f.write("UTC:" + str(utctime) + "\tLat:" + str(lat) + "\tLon:" + str(lon) + "\tsH:" + str(sHeight) + "\tgH:" + str(gHeight) + "\n")
 
