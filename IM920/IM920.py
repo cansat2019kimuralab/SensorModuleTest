@@ -305,14 +305,15 @@ def Send(args, mybaudrate = 19200):
 	mybaudrate:ボーレート
 	args:送信したい文字列 (数字の場合も文字列型にすること)
 	'''
+	#print(binascii.b2a_hex(args.encode('utf-8')))
 	com = setSerial(mybaudrate)
 	com.flushInput()
 	com.write(b'TXDA' + binascii.b2a_hex(args.encode('utf-8')) + b'\r\n')
+	data = com.readline()
 	com.flushOutput()
-	#com.readline()
 	#print(com.readline().strip())
 	com.close()
-
+	return data
 	
 def IMSend(byte, mybaudrate = 19200):
 	'''
@@ -393,5 +394,12 @@ if __name__ == '__main__':
 	pi.set_mode(22,pigpio.OUTPUT)
 	pi.write(22,1)
 	time.sleep(2)
-	IMSend(b"114514")  #文字列送信
-	Reception()
+	i = 0
+	while 1:
+		print(i)
+		Send("P" + str(i))
+		i = i + 1
+		time.sleep(0.5)
+		if i == 10:
+			i = 0
+	#Reception()
