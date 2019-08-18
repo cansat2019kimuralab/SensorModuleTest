@@ -2,6 +2,7 @@ import sys
 sys.path.append('/home/pi/git/kimuralab/Other')
 import picamera
 import time
+import traceback
 import Other
 
 def Capture(path, width = 320, height = 240):
@@ -18,5 +19,10 @@ def Capture(path, width = 320, height = 240):
 	return filepath
 
 if __name__ == "__main__":
-	photoName = Capture("photo/photo", 160, 120)
-	print(photoName)
+	try:
+		photoName = Capture("photo/photo", 160, 120)
+		print(photoName)
+	except KeyboardInterrupt:
+		print('stop')
+	except:
+		print(traceback.format_exc())
