@@ -113,12 +113,12 @@ def motor_stop():
 
 if __name__ == "__main__":
 	try:
-		#motor(70, 70, 5)
+		motor(70, 70, 1.5)
 		
-		motor(50, 0, 3)
-		motor(0, 50, 3)
-		motor(-50, 0, 3)
-		motor(0, -50, 3)
+		#motor(50, 0, 3)
+		#motor(0, 50, 3)
+		#motor(-50, 0, 3)
+		#motor(0, -50, 3)
 		
 		#motor(0, 0, 2, 0)
 		motor_stop()

@@ -148,6 +148,7 @@ if __name__ == "__main__":
 		while 1:
 			lux = readLux()
 			print(str(lux[0])+"	:	"+str(lux[1]))
+			print(type(lux[0]+lux[1]))
 			time.sleep(0.5)
 	except KeyboardInterrupt:
 		print()
