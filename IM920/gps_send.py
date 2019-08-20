@@ -19,7 +19,8 @@ if __name__ == '__main__':
 		GPS.openGPS()
 		while 1:
 			gpsData = GPS.readGPS()
-			IM920.Send("G" + str(lat) + ":" + str(lon))
+			IM920.Send("G" + str(gpsData[1]) + ":" + str(gpsData[2]))
+			print("G" + str(gpsData[1]) + ":" + str(gpsData[2]))
 			if(RunningGPS.checkGPSstatus(gpsData)):
 				Other.saveLog("logGPS.txt", time.time(), gpsData)
 			time.sleep(1)
