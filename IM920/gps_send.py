@@ -1,39 +1,32 @@
 import sys
 sys.path.append('/home/pi/git/kimuralab/SensorModuleTest/GPS')
-import time
+sys.path.append('/home/pi/git/kimuralab/IntegratedProgram/Running')
+sys.path.append('/home/pi/git/kimuralab/Other')
+
+import binascii
 import difflib
 import pigpio
 import serial
-import binascii
-import IM920
+import traceback
+import time
 import GPS
+import IM920
+import RunningGPS
+import Other
 
 if __name__ == '__main__':
 	try:
 		GPS.openGPS()
-		print ("DATA - SOFTWARE SERIAL:")
 		while 1:
-			utctime,lat,lon,sHeight,gHeight = GPS.readGPS()
-			if utctime == -1.0:
-				if lat == -1.0:
-					print("Reading GPS Error")
-					IM920.Send("E")
-				else:
-					print("Status V")
-					IM920.Send("V")
-			else:
-				#print(str(utctime) + "  " + str(lat) + " " + str(lon), end="")
-				#print(str(sHeight)+str(gHeight))
-				IM920.Send('G'+", "+str(utctime) + ',' + str(lat) + ',' + str(lon) + ',' + str(sHeight) + ',' + str(gHeight) + ',')
-				with open("gps.txt", "a") as f:
-					f.write("UTC:" + str(utctime) + "\tLat:" + str(lat) + "\tLon:" + str(lon) + "\tsH:" + str(sHeight) + "\tgH:" + str(gHeight) + "\n")
-
+			gpsData = GPS.readGPS()
+			IM920.Send("G" + str(lat) + ":" + str(lon))
+			if(RunningGPS.checkGPSstatus(gpsData)):
+				Other.saveLog("logGPS.txt", time.time(), gpsData)
 			time.sleep(1)
 	except KeyboardInterrupt:
 		GPS.closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
-	except Exception as e:
+	except:
 		GPS.closeGPS()
 		print("\r\nError, Serial Closed")
-		print()
-		print(e.message) 
+		print(traceback.format_exc()) 
