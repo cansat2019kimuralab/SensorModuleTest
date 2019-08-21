@@ -16,6 +16,10 @@ def Capture(path, width = 320, height = 240):
 	except picamera.exc.PiCameraMMALError:
 		filepath = "Null"
 		time.sleep(0.8)
+	except:
+		print(traceback.format_exc())
+		time.sleep(0.1)
+		filepath = "Null"
 	return filepath
 
 if __name__ == "__main__":
