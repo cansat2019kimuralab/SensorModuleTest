@@ -21,8 +21,8 @@ if __name__ == '__main__':
 			gpsData = GPS.readGPS()
 			IM920.Send("G" + str(gpsData[1]) + ":" + str(gpsData[2]))
 			print("G" + str(gpsData[1]) + ":" + str(gpsData[2]))
-			if(RunningGPS.checkGPSstatus(gpsData)):
-				Other.saveLog("logGPS.txt", time.time(), gpsData)
+			#if(RunningGPS.checkGPSstatus(gpsData)):
+			#	Other.saveLog("logGPS.txt", time.time(), gpsData)
 			time.sleep(1)
 	except KeyboardInterrupt:
 		GPS.closeGPS()

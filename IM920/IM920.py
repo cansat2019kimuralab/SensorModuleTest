@@ -16,6 +16,7 @@ def signal_handler(signal, frame):
 
 def setSerial(mybaudrate = 19200):
 	# --- Configutation of serial.Serial --- #
+	#global com
 	com = serial.Serial(
 		port	 = portnumber,
 		baudrate = mybaudrate,
@@ -33,6 +34,12 @@ def setSerial(mybaudrate = 19200):
 	com.flushOutput()
 	return com
 
+def Close(mybaudrate=19200):
+	com=setSerial(mybaudrate)
+	com.flushInput()
+	com.flushOutput()
+	com.close()
+
 def Rdid(mybaudrate = 19200):
 	# --- Read Own ID --- #
 	com = setSerial(mybaudrate)
@@ -40,9 +47,11 @@ def Rdid(mybaudrate = 19200):
 	com.flushInput()
 	com.write(b'RDID' + b'\r\n')
 	com.flushOutput()
+	data = com.readline().strip()
 	#print(dir(com))
 	#print('固有ID:' + str(com.readline().strip()))
 	com.close()
+	return data
 
 def Rrid(mybaudrate = 19200):
 	# --- Read Recieve Device ID --- #
@@ -50,8 +59,15 @@ def Rrid(mybaudrate = 19200):
 	com.flushInput()
 	com.write(b'RRID' + b'\r\n')
 	com.flushOutput()
-	print('受信ID:' + str(com.readline().strip()))
+	data = []
+	while 1:
+		id = com.readline().strip()
+		if id == b'':
+			break
+		data.append(id)
+		#print('受信ID:' + str(com.readline().strip()))
 	com.close()
+	return data
 
 def Stch(setch, mybaudrate = 19200):
 	# --- Configuration of Communication Channel --- #
@@ -72,11 +88,12 @@ def Stch(setch, mybaudrate = 19200):
 	com.readline()
 	com.write(b'Stch ' + setch.encode('utf-8') + b'\r\n')
 	com.flushOutput()
-	com.readline()
+	data = com.readline()
 	com.write(b'DSWR' + b'\r\n')
 	com.flushOutput()
 	com.readline()
 	com.close()
+	return data
 
 def Rdch(mybaudrate = 19200):
 	# --- Read Communication Channel --- #
@@ -132,6 +149,7 @@ def Rdch(mybaudrate = 19200):
 		#print('無線通信チャンネル:' + '15 923.4MHz')
 	#com.readline()
 	com.close()
+	return ch
 
 def Sbrt(setbaudrate, mybaudrate = 19200):
 	# --- Configuration of Baudrate --- #
@@ -150,11 +168,12 @@ def Sbrt(setbaudrate, mybaudrate = 19200):
 	com.readline()
 	com.write(b'SBRT ' + setbaudrate.encode('utf-8') + b'\r\n')
 	com.flushOutput()
-	com.readline()
+	data = com.readline()
 	com.write(b'DSWR' + b'\r\n')
 	com.flushOutput()
 	com.readline()
 	com.close()
+	return data
 
 def Rdrs(mybaudrate = 19200):
 	# --- Read RSSI --- #
@@ -236,11 +255,12 @@ def Strt(setspeed, mybaudrate = 19200):
 	com.readline()
 	com.write(b'STRT ' + setspeed.encode('utf-8') + b'\r\n')
 	com.flushOutput()
-	com.readline()
+	data = com.readline()
 	com.write(b'DSWR' + b'\r\n')
 	com.flushOutput()
 	com.readline()
 	com.close()
+	return data
 
 def Rdrt(mybaudrate = 19200):
 	'''
@@ -255,11 +275,14 @@ def Rdrt(mybaudrate = 19200):
 	com.flushOutput()
 	sp = com.readline().strip()
 	if sp in ['1']:
-		print('無線通信速度:' + '高速通信モード(無線通信速度 50kbps)')
+		pass
+		#print('無線通信速度:' + '高速通信モード(無線通信速度 50kbps)')
 	elif sp in ['2']:
-		print('無線通信速度:' + '2 長距離モード(無線通信速度 1.25kbps)')
+		pass
+		#print('無線通信速度:' + '2 長距離モード(無線通信速度 1.25kbps)')
 	#com.readline()
 	com.close()
+	return sp
 
 def Srid(args, mybaudrate = 19200):
 	'''
@@ -274,11 +297,12 @@ def Srid(args, mybaudrate = 19200):
 	com.readline()
 	com.write(b'SRID ' + args.encode('utf-8') + b'\r\n')
 	com.flushOutput()
-	com.readline()
+	data = com.readline()
 	com.write(b'DSWR' + b'\r\n')
 	com.flushOutput()
 	com.readline()
 	com.close()
+	return data
 
 def Erid(mybaudrate = 19200):
 	'''
@@ -305,6 +329,7 @@ def Send(args, mybaudrate = 19200):
 	mybaudrate:ボーレート
 	args:送信したい文字列 (数字の場合も文字列型にすること)
 	'''
+	global com
 	#print(binascii.b2a_hex(args.encode('utf-8')))
 	com = setSerial(mybaudrate)
 	com.flushInput()
@@ -312,9 +337,9 @@ def Send(args, mybaudrate = 19200):
 	data = com.readline()
 	com.flushOutput()
 	#print(com.readline().strip())
-	com.close()
+	#com.close()
 	return data
-	
+
 def IMSend(byte, mybaudrate = 19200):
 	'''
 	送信
@@ -397,9 +422,12 @@ if __name__ == '__main__':
 	i = 0
 	while 1:
 		print(i)
-		Send("P" + str(i))
+		data = Send("P" + str(i))
+		print(data)
+		if data == b'OK\r\n':
+			print("OK")
 		i = i + 1
-		time.sleep(0.5)
+		#time.sleep(0.5)
 		if i == 10:
 			i = 0
 	#Reception()
