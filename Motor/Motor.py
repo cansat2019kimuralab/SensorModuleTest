@@ -113,19 +113,12 @@ def motor_stop():
 
 if __name__ == "__main__":
 	try:
-		#motor(50, 0, 3)
-		#motor(0, 50, 3)
-		#motor(-50, 0, 3)
-		#motor(0, -50, 3)
-		#motor(0, 0, 2, 0)
-		#motor_stop()
-		while 1:
-			L = float(input("input left value "))
-			R = float(input("input Right value "))
-			T = float(input("input Time value "))
-			motor(L, R, T)
-			motor(0, 0, 2)
-			motor_stop()
+		motor(50, 0, 3)
+		motor(0, 50, 3)
+		motor(-50, 0, 3)
+		motor(0, -50, 3)
+		motor(0, 0, 2, 0)
+		motor_stop()
 	except KeyboardInterrupt:
 		motor(0, 0, 3)
 		motor_stop()
