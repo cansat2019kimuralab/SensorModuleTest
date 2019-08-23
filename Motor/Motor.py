@@ -1,6 +1,7 @@
 import pigpio
 import time
 import traceback
+import sys
 
 AIN1 = 24
 AIN2 = 23
@@ -133,6 +134,10 @@ if __name__ == "__main__":
 				motor(L, R, T)
 				motor(0, 0, 2)
 				f = 0
+			except KeyboardInterrupt:
+				print("Emergency!")
+				motor_stop()
+				sys.exit()
 			except:
 				pass
 	except KeyboardInterrupt:
