@@ -119,6 +119,22 @@ if __name__ == "__main__":
 		motor(0, -50, 3)
 		motor(0, 0, 2, 0)
 		motor_stop()
+		f = 0
+		while 1:
+			try:
+				if f == 0:
+					L = float(input("input left motor "))
+					f = 1
+				if f == 1:
+					R = float(input("input right motor "))
+					f = 2
+				if f == 2:
+					T = float(input("input time "))
+				motor(L, R, T)
+				motor(0, 0, 2)
+				f = 0
+			except:
+				pass
 	except KeyboardInterrupt:
 		motor(0, 0, 3)
 		motor_stop()
