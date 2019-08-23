@@ -185,51 +185,6 @@ def Rdrs(mybaudrate = 19200):
 	#com.readline()
 	com.close()
 
-def Stpo(setoutput, mybaudrate = 19200):
-	# --- Configuraiton of Transmission Output --- #
-	'''
-	setoutput:セットする送信出力(文字列でもってくること)
-		1 -10dBm(0.1mW)
-		2   0dBm(1mW)
-		3  10dBm(10mW)
-	'''
-	com = setSerial(mybaudrate)
-	com.flushInput()
-	com.write(b'ENWR' + b'\r\n')
-	com.flushOutput()
-	com.readline()
-	com.write(b'STPO ' + setoutput.encode('utf-8') + b'\r\n')
-	com.flushOutput()
-	com.readline()
-	com.write(b'DSWR' + b'\r\n')
-	com.flushOutput()
-	com.readline()
-	com.close()
-
-def Rdpo(mybaudrate = 19200):
-	# --- Read Transmission Output --- #
-	'''
-		1 -10dBm(0.1mW)
-		2   0dBm(1mW)
-		3  10dBm(10mW)
-	'''
-	com = setSerial(mybaudrate)
-	com.flushInput()
-	com.write(b'RDPO' + b'\r\n')
-	com.flushOutput()
-	op = com.readline().strip()
-	if op in ['1']:
-		pass
-		#print('送信出力:' + '1 -10dBm(0.1mW)')
-	elif op in ['2']:
-		pass
-		#print('送信出力:' + '2   0dBm(1mW)')
-	elif op in ['3']:
-		pass
-		#print('送信出力:' + '3  10dBm(10mW)')
-	#com.readline()
-	com.close()
-
 def read(mybaudrate=19200):
 	re=""
 	try:
@@ -275,11 +230,9 @@ def Rdrt(mybaudrate = 19200):
 	com.flushOutput()
 	sp = com.readline().strip()
 	if sp in ['1']:
-		pass
-		#print('無線通信速度:' + '高速通信モード(無線通信速度 50kbps)')
+		print('1:fastmode')
 	elif sp in ['2']:
-		pass
-		#print('無線通信速度:' + '2 長距離モード(無線通信速度 1.25kbps)')
+		print("2:distancemode")
 	#com.readline()
 	com.close()
 	return sp
@@ -409,8 +362,10 @@ def Rprm(mybaudrate = 19200):
 	com.flushInput()
 	com.write(b'RPRM' + b'\r\n')
 	com.flushOutput()
-	print(com.readline().strip())
-	#com.readline()
+	for i in range(10):
+		print(com.readline().strip())
+
+	com.readline()
 	com.close()
 
 
