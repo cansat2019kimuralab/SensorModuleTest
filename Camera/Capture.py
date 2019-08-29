@@ -9,7 +9,6 @@ def Capture(path, width = 320, height = 240):
 	filepath = ""
 	try:
 		with picamera.PiCamera() as camera:
-			camera.CAPTURE_TIMEOUT = 15
 			camera.rotation = 270
 			camera.resolution = (width,height)	#(width,height)
 			filepath = Other.fileName(path,"jpg")

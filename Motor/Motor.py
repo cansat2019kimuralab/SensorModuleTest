@@ -48,8 +48,8 @@ def motor(left, right, t = 0.001, mode = 0):
 				pi1.write(BIN2, 0)
 
 				#print(motorPL, motorPR)
-				pi1.hardware_PWM(PWMA, 200, abs(motorPL))
-				pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+				pi1.hardware_PWM(PWMA, 500, abs(motorPL))
+				pi1.hardware_PWM(PWMB, 500, abs(motorPR))
 			mode = 0
 
 		#print(motor_prior_l, motor_prior_r)
@@ -98,8 +98,8 @@ def motor(left, right, t = 0.001, mode = 0):
 			pi1.write(BIN2, 0)
 
 		#print(motorPL, motorPR)
-		pi1.hardware_PWM(PWMA, 200, abs(motorPL))
-		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+		pi1.hardware_PWM(PWMA, 500, abs(motorPL))
+		pi1.hardware_PWM(PWMB, 500, abs(motorPR))
 
 		if(mode == 1):
 			time.sleep(t)
@@ -109,8 +109,8 @@ def motor(left, right, t = 0.001, mode = 0):
 	return [motorPL, motorPR]
 
 def motor_stop():
-	pi1.hardware_PWM(PWMA, 200, 0)
-	pi1.hardware_PWM(PWMB, 200, 0)
+	pi1.hardware_PWM(PWMA, 500, 0)
+	pi1.hardware_PWM(PWMB, 500, 0)
 
 if __name__ == "__main__":
 	try:
@@ -135,8 +135,8 @@ if __name__ == "__main__":
 				if f == 3:
 					M = float(input("input mode "))
 				motor(L, R, T, M)
-				motor(0, 0, 2)
-				motor_stop()
+				#motor(0, 0, 2)
+				#motor_stop()
 				f = 0
 			except KeyboardInterrupt:
 				print("Emergency!")
