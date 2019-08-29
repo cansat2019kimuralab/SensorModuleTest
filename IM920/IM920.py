@@ -376,13 +376,14 @@ if __name__ == '__main__':
 	time.sleep(2)
 	i = 0
 	while 1:
-		print(i)
+		print("P" + str(i))
 		data = Send("P" + str(i))
-		print(data)
-		if data == b'OK\r\n':
-			print("OK")
+		#print(data)
+		#if data == b'OK\r\n':
+			#print("OK")
 		i = i + 1
 		#time.sleep(0.5)
 		if i == 10:
 			i = 0
+		time.sleep(1)
 	#Reception()
