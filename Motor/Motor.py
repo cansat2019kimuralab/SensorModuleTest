@@ -128,15 +128,15 @@ if __name__ == "__main__":
 					f = 1
 				if f == 1:
 					R = float(input("input right motor "))
-					#f = 2
-				#if f == 2:
-					#T = float(input("input time "))
+					f = 2
+				if f == 2:
+					T = float(input("input time "))
 					#f = 3
 				#if f == 3:
 					#M = float(input("input mode "))
-				motor(L, R, 1, 0)
-				#motor(0, 0, 2)
-				#motor_stop()
+				motor(L, R, T, 0)
+				motor(0, 0, 2)
+				motor_stop()
 				f = 0
 			except KeyboardInterrupt:
 				print("Emergency!")
