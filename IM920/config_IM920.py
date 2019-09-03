@@ -20,6 +20,12 @@ if __name__ == "__main__":
 		data = IM920.Srid(args[2])
 	elif(args[1] == "RRID"):
 		data = IM920.Rrid()
+	elif(args[1] == "STRT"):
+		data = IM920.Strt(args[2])
+	elif(args[1] == "RDRT"):
+		data = IM920.Rdrt(args[2])
+	elif(args[1] == "RPRM"):
+		data = IM920.Rprm()
 	else:
 		data = "None"
 	print(data)

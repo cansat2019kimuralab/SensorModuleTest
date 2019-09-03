@@ -1,6 +1,7 @@
 import pigpio
 import time
 import traceback
+import sys
 
 AIN1 = 24
 AIN2 = 23
@@ -47,8 +48,8 @@ def motor(left, right, t = 0.001, mode = 0):
 				pi1.write(BIN2, 0)
 
 				#print(motorPL, motorPR)
-				pi1.hardware_PWM(PWMA, 200, abs(motorPL))
-				pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+				pi1.hardware_PWM(PWMA, 500, abs(motorPL))
+				pi1.hardware_PWM(PWMB, 500, abs(motorPR))
 			mode = 0
 
 		#print(motor_prior_l, motor_prior_r)
@@ -97,8 +98,8 @@ def motor(left, right, t = 0.001, mode = 0):
 			pi1.write(BIN2, 0)
 
 		#print(motorPL, motorPR)
-		pi1.hardware_PWM(PWMA, 200, abs(motorPL))
-		pi1.hardware_PWM(PWMB, 200, abs(motorPR))
+		pi1.hardware_PWM(PWMA, 500, abs(motorPL))
+		pi1.hardware_PWM(PWMB, 500, abs(motorPR))
 
 		if(mode == 1):
 			time.sleep(t)
@@ -108,17 +109,41 @@ def motor(left, right, t = 0.001, mode = 0):
 	return [motorPL, motorPR]
 
 def motor_stop():
-	pi1.hardware_PWM(PWMA, 200, 0)
-	pi1.hardware_PWM(PWMB, 200, 0)
+	pi1.hardware_PWM(PWMA, 500, 0)
+	pi1.hardware_PWM(PWMB, 500, 0)
 
 if __name__ == "__main__":
 	try:
-		motor(50, 0, 3)
-		motor(0, 50, 3)
-		motor(-50, 0, 3)
-		motor(0, -50, 3)
-		motor(0, 0, 2, 0)
-		motor_stop()
+		#motor(50, 0, 3)
+		#motor(0, 50, 3)
+		#motor(-50, 0, 3)
+		#motor(0, -50, 3)
+		#motor(0, 0, 2, 0)
+		#motor_stop()
+		f = 0
+		while 1:
+			try:
+				if f == 0:
+					L = float(input("input left motor "))
+					f = 1
+				if f == 1:
+					R = float(input("input right motor "))
+					f = 2
+				if f == 2:
+					T = float(input("input time "))
+					#f = 3
+				#if f == 3:
+					#M = float(input("input mode "))
+				motor(L, R, T, 0)
+				motor(0, 0, 2)
+				motor_stop()
+				f = 0
+			except KeyboardInterrupt:
+				print("Emergency!")
+				motor_stop()
+				sys.exit()
+			except:
+				pass
 	except KeyboardInterrupt:
 		motor(0, 0, 3)
 		motor_stop()
