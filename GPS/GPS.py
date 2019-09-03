@@ -52,82 +52,71 @@ def readGPS():
 
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
+		gll = gpsData.find('$GPGLL,')
 
-		if(gpsData[rmc:rmc+20].find("V") != -1):	#Checking GPS Status
-			# --- Status V --- #
+
+		if(gpsData[gga:gga+20].find(",0,") != -1 or gpsData[rmc:rmc+20].find("V") != -1 or gpsData[gll:gll+20].find("V")):
 			utc = -1.0
 			Lat = 0.0
-		elif(gpsData[rmc:rmc+20].find("A") != -1):
-			# --- Status A --- #
-			gprmc = gpsData[rmc:rmc+72].split(",")
-			gpgga = gpsData[gga:gga+72].split(",")
-
-			# --- Read Lat and Lon --- #
-			if len(gprmc) >= 7:
-				utc = gprmc[1]
-				#print(utc)
-				lat = gprmc[3]
-				lon = gprmc[5]
+		else:
+			if(gpsData[gga:gga+20].find(",N,") != -1 or gpsData[gga:gga+20].find(",S,") != -1)
+				gpgga = gpsData[gga:gga+72].split(",")
+				if len(gpgga) >= 6:
+					utc = gpgga[1]
+					lat = gpgga[2]
+					lon = gpgga[4]
 				try:
 					utc = float(utc)
 					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 				except:
-					utc = 0.0
-					Lat = 0.0
-					Lon = 0.0
-				if(gprmc[4] == "S"):
-					Lat = Lat * -1
-				if(gprmc[6] == "W"):
-					Lon = Lon * -1
-			elif len(gpgga) >= 6:
-				utc = gpgga[1]
-				lat = gpgga[2]
-				lon = gpgga[4]
-				try:
-					utc = float(utc)
-					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
-					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
-				except:
-					utc = 0.0
+					utc = -2.0
 					Lat = 0.0
 					Lon = 0.0
 				if(gpgga[3] == "S"):
-					Lat = Lat * -1.0
-				if(gpgga[5] == "W"):
-					Lon = Lon * -1.0
-			else:
-				pass
-
-			# --- Read Height --- #
-			if len(gpgga) >= 12:
-				if(isinstance(gpgga[9], int) or isinstance(gpgga[9], float)):
-					sHeight = gpgga[9]
-				elif(isinstance(gpgga[9], str)):
+					Lat = Lat * -1
+				if(gprmc[5] == "W"):
+					Lon = Lon * -1
+			if(gpsData[gll:gll+20].find("A") != -1 and utc == -2.0):
+				gpgll = gpsData[gll:gll+72].split(",")
+				if len(gpgga) >= 6:
+					utc = gpgll[5]
+					lat = gpgll[1]
+					lon = gpgll[3]
 					try:
-						sHeight = float(gpgga[9])
+						utc = float(utc)
+						Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
+						Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 					except:
-						sHeight = 0.0
+						utc = -2.0
+					if(gpgga[2] == "S"):
+						Lat = Lat * -1
+					if(gprmc[4] == "W"):
+						Lon = Lon * -1
 				else:
-					sHeight = 0.0
-
-				if(isinstance(gpgga[11], int) or isinstance(gpgga[11], float)):
-					gHeight = gpgga[11]
-				elif(isinstance(gpgga[11], str)):
+					utc = -2.0
+			if(gpsData[rmc:rmc+20].find("A") != -1 and utc == -2.0):
+				gprmc = gpsData[rmc:rmc+72].split(",")
+				if len(gprmc) >= 7:
+					utc = gprmc[1]
+					lat = gprmc[3]
+					lon = gprmc[5]
 					try:
-						gHeight = float(gpgga[11])
+						utc = float(utc)
+						Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
+						Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 					except:
-						gHeight = 0.0
+						utc = -2.0
+						Lat = 0.0
+						Lon = 0.0
+					if(gprmc[4] == "S"):
+						Lat = Lat * -1
+					if(gprmc[6] == "W"):
+						Lon = Lon * -1
 				else:
-					gHeight = 0.0
-			else:
-				pass
-		else:
-			# --- No Status Data --- #
-			utc = -1.0
-			Lat = -1.0
-			Lon = 0.0
-
+					utc = -1.0
+					Lat = -1.0
+					Lon = 0.0
 	value = [utc, Lat, Lon, sHeight, gHeight]
 	for i in range(len(value)):
 		if not (isinstance(value[i], int) or isinstance(value[i], float)):
