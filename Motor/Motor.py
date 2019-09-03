@@ -29,7 +29,7 @@ def motor(left, right, t = 0.001, mode = 0):
 
 	#if motor wiring changed, check these val
 	left = left * (-1.0)
-	right = right * (1.0)
+	right = right * (-1.0)
 
 	t1 = time.time()
 	while(time.time() - t1 < t):

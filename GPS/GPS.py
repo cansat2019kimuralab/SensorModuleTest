@@ -46,10 +46,14 @@ def readGPS():
 
 	(count, data) = pi.bb_serial_read(RX)
 	if count:
+		#print(data)
 		#print(type(data))
 		if isinstance(data, bytearray):
 			gpsData = data.decode('utf-8', 'replace')
 
+		print(gpsData)
+		print()
+		print()
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
 
@@ -61,6 +65,7 @@ def readGPS():
 			# --- Status A --- #
 			gprmc = gpsData[rmc:rmc+72].split(",")
 			gpgga = gpsData[gga:gga+72].split(",")
+
 
 			# --- Read Lat and Lon --- #
 			if len(gprmc) >= 7:
@@ -231,16 +236,18 @@ if __name__ == '__main__':
 			#print(utc, lat, lon)
 			if(utc == -1.0):
 				if(lat == -1.0):
-					print("Reading GPS Error")
-					#pass
+					#print("Reading GPS Error")
+					pass
 				else:
-					print("Status V")
+					pass
+					#print("Status V")
 			else:
-				print(utc, lat, lon, sHeight, gHeight)
+				pass
+				#print(utc, lat, lon, sHeight, gHeight)
 				#with open("gps.txt", "a") as f:
 				#	f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
 
-			time.sleep(1)
+			time.sleep(0.5)
 	except KeyboardInterrupt:
 		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
