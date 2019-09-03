@@ -4,6 +4,7 @@ import time
 import difflib
 import pigpio
 import numpy as np
+import traceback
 
 RX=26
 pi = pigpio.pi()
@@ -51,39 +52,45 @@ def readGPS():
 		if isinstance(data, bytearray):
 			gpsData = data.decode('utf-8', 'replace')
 
-		print(gpsData)
-		print()
-		print()
+		#print(gpsData)
+		#print()
+		#print()
 		gga = gpsData.find('$GPGGA,')
 		rmc = gpsData.find('$GPRMC,')
 		gll = gpsData.find('$GPGLL,')
 
 
-		if(gpsData[gga:gga+20].find(",0,") != -1 or gpsData[rmc:rmc+20].find("V") != -1 or gpsData[gll:gll+20].find("V")):
+		if(gpsData[gga:gga+60].find(",0,") != -1 or gpsData[rmc:rmc+20].find("V") != -1 or gpsData[gll:gll+20].find("V")):
 			utc = -1.0
 			Lat = 0.0
+			Lon = 0.0
 		else:
-			if(gpsData[gga:gga+20].find(",N,") != -1 or gpsData[gga:gga+20].find(",S,") != -1):
+			utc = -2.0
+			if(gpsData[gga:gga+60].find(",N,") != -1 or gpsData[gga:gga+60].find(",S,") != -1):
 				gpgga = gpsData[gga:gga+72].split(",")
+				#print(gpgga)
 				if len(gpgga) >= 6:
 					utc = gpgga[1]
 					lat = gpgga[2]
 					lon = gpgga[4]
-				try:
-					utc = float(utc)
-					Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
-					Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
-				except:
+					try:
+						utc = float(utc)
+						Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
+						Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
+					except:
+						utc = -2.0
+						Lat = 0.0
+						Lon = 0.0
+					if(gpgga[3] == "S"):
+						Lat = Lat * -1
+					if(gpgga[5] == "W"):
+						Lon = Lon * -1
+				else:
 					utc = -2.0
-					Lat = 0.0
-					Lon = 0.0
-				if(gpgga[3] == "S"):
-					Lat = Lat * -1
-				if(gprmc[5] == "W"):
-					Lon = Lon * -1
-			if(gpsData[gll:gll+20].find("A") != -1 and utc == -2.0):
+			if(gpsData[gll:gll+60].find("A") != -1 and utc == -2.0):
 				gpgll = gpsData[gll:gll+72].split(",")
-				if len(gpgga) >= 6:
+				#print(gpgll)
+				if len(gpgll) >= 6:
 					utc = gpgll[5]
 					lat = gpgll[1]
 					lon = gpgll[3]
@@ -93,14 +100,15 @@ def readGPS():
 						Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 					except:
 						utc = -2.0
-					if(gpgga[2] == "S"):
+					if(gpgll[2] == "S"):
 						Lat = Lat * -1
-					if(gprmc[4] == "W"):
+					if(gpgll[4] == "W"):
 						Lon = Lon * -1
 				else:
 					utc = -2.0
 			if(gpsData[rmc:rmc+20].find("A") != -1 and utc == -2.0):
 				gprmc = gpsData[rmc:rmc+72].split(",")
+				#print(gprmc)
 				if len(gprmc) >= 7:
 					utc = gprmc[1]
 					lat = gprmc[3]
@@ -110,7 +118,7 @@ def readGPS():
 						Lat = round(float(lat[:2]) + float(lat[2:]) / 60.0, 6)
 						Lon = round(float(lon[:3]) + float(lon[3:]) / 60.0, 6)
 					except:
-						utc = -2.0
+						utc = -1.0
 						Lat = 0.0
 						Lon = 0.0
 					if(gprmc[4] == "S"):
@@ -121,6 +129,10 @@ def readGPS():
 					utc = -1.0
 					Lat = -1.0
 					Lon = 0.0
+			if(utc == -2.0):
+				utc = -1.0
+				Lat = -1.0
+				Lon = 0.0
 	value = [utc, Lat, Lon, sHeight, gHeight]
 	for i in range(len(value)):
 		if not (isinstance(value[i], int) or isinstance(value[i], float)):
@@ -224,21 +236,20 @@ if __name__ == '__main__':
 			#print(utc, lat, lon)
 			if(utc == -1.0):
 				if(lat == -1.0):
-					#print("Reading GPS Error")
-					pass
+					print("Reading GPS Error")
+					#pass
 				else:
-					pass
-					#print("Status V")
+					#pass
+					print("Status V")
 			else:
-				pass
-				#print(utc, lat, lon, sHeight, gHeight)
+				#pass
+				print(utc, lat, lon, sHeight, gHeight)
 				#with open("gps.txt", "a") as f:
 				#	f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
-
 			time.sleep(0.5)
 	except KeyboardInterrupt:
 		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
 	except:
 		closeGPS()
-		print ("\r\nError, Serial Cloesd")
+		print (traceback.format_exc())
