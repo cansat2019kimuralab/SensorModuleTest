@@ -60,8 +60,8 @@ def readGPS():
 		gll = gpsData.find('$GPGLL,')
 
 		#print(gpsData[rmc:rmc+20])
-		#print(gpsData[gll:gll+20])
-		if(gpsData[gga:gga+20].find(",0,") != -1 or gpsData[rmc:rmc+20].find("V") != -1 or gpsData[gll:gll+20].find("V") != -1):
+		#print(gpsData[gll:gll+40])
+		if(gpsData[gga:gga+20].find(",0,") != -1 or gpsData[rmc:rmc+20].find("V") != -1 or gpsData[gll:gll+60].find("V") != -1):
 			utc = -1.0
 			Lat = 0.0
 			Lon = 0.0
@@ -95,9 +95,11 @@ def readGPS():
 					except:
 						pass
 					#print(sHeight, gHeight)
-			if(gpsData[gll:gll+60].find("A") != -1 and utc == -2.0):
+			#print(gpsData[gll:gll+60].find("A"))
+			if(gpsData[gll:gll+40].find("N") != -1 and utc == -2.0):
 				gpgll = gpsData[gll:gll+72].split(",")
 				#print(gpgll)
+				#print("a")
 				if len(gpgll) >= 6:
 					utc = gpgll[5]
 					lat = gpgll[1]
@@ -117,6 +119,7 @@ def readGPS():
 			if(gpsData[rmc:rmc+20].find("A") != -1 and utc == -2.0):
 				gprmc = gpsData[rmc:rmc+72].split(",")
 				#print(gprmc)
+				#print("b")
 				if len(gprmc) >= 7:
 					utc = gprmc[1]
 					lat = gprmc[3]
