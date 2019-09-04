@@ -88,6 +88,9 @@ def readGPS():
 						Lon = Lon * -1
 				else:
 					utc = -2.0
+				if len(gpgga) >= 12:
+					sHeight = gpgga[9]
+					gHeight = gpgga[11]
 			if(gpsData[gll:gll+60].find("A") != -1 and utc == -2.0):
 				gpgll = gpsData[gll:gll+72].split(",")
 				#print(gpgll)
@@ -134,6 +137,7 @@ def readGPS():
 				utc = -1.0
 				Lat = -1.0
 				Lon = 0.0
+
 	value = [utc, Lat, Lon, sHeight, gHeight]
 	for i in range(len(value)):
 		if not (isinstance(value[i], int) or isinstance(value[i], float)):
