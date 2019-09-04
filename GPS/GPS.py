@@ -59,8 +59,9 @@ def readGPS():
 		rmc = gpsData.find('$GPRMC,')
 		gll = gpsData.find('$GPGLL,')
 
-
-		if(gpsData[gga:gga+60].find(",0,") != -1 or gpsData[rmc:rmc+20].find("V") != -1 or gpsData[gll:gll+20].find("V")):
+		#print(gpsData[rmc:rmc+20])
+		#print(gpsData[gll:gll+20])
+		if(gpsData[gga:gga+20].find(",0,") != -1 or gpsData[rmc:rmc+20].find("V") != -1 or gpsData[gll:gll+20].find("V") != -1):
 			utc = -1.0
 			Lat = 0.0
 			Lon = 0.0
@@ -246,7 +247,7 @@ if __name__ == '__main__':
 				print(utc, lat, lon, sHeight, gHeight)
 				#with open("gps.txt", "a") as f:
 				#	f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
-			time.sleep(0.5)
+			time.sleep(1)
 	except KeyboardInterrupt:
 		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
