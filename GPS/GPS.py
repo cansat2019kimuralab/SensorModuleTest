@@ -89,8 +89,12 @@ def readGPS():
 				else:
 					utc = -2.0
 				if len(gpgga) >= 12:
-					sHeight = gpgga[9]
-					gHeight = gpgga[11]
+					try:
+						sHeight = float(gpgga[9])
+						gHeight = float(gpgga[11])
+					except:
+						pass
+					#print(sHeight, gHeight)
 			if(gpsData[gll:gll+60].find("A") != -1 and utc == -2.0):
 				gpgll = gpsData[gll:gll+72].split(",")
 				#print(gpgll)
@@ -233,12 +237,8 @@ def vincentyInverse(lat1, lon1, lat2, lon2, ellipsoid=None):
 if __name__ == '__main__':
 	try:
 		openGPS()
-		with open("gps.txt", "a") as f:
-			pass
-		#print ("DATA - SOFTWARE SERIAL:")
 		while 1:
 			utc,lat,lon,sHeight,gHeight = readGPS()
-			#print(utc, lat, lon)
 			if(utc == -1.0):
 				if(lat == -1.0):
 					print("Reading GPS Error")
@@ -249,9 +249,7 @@ if __name__ == '__main__':
 			else:
 				#pass
 				print(utc, lat, lon, sHeight, gHeight)
-				#with open("gps.txt", "a") as f:
-				#	f.write(str(utc) + "\t" + str(lat) + "\t" + str(lon) + "\t" + str(sHeight) + "\t" + str(gHeight) + "\n")
-			time.sleep(1)
+			time.sleep(0.5)
 	except KeyboardInterrupt:
 		closeGPS()
 		print("\r\nKeyboard Intruppted, Serial Closed")
