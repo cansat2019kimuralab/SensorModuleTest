@@ -28,7 +28,7 @@ def motor(left, right, t = 0.001, mode = 0):
 	motorPR = 0.0
 
 	#if motor wiring changed, check these val
-	left = left * (-1.0)
+	left = left * (1.0)
 	right = right * (-1.0)
 
 	t1 = time.time()
@@ -126,20 +126,28 @@ if __name__ == "__main__":
 				if f == 0:
 					L = float(input("input left motor "))
 					f = 1
+					if L > 100 or L < -100:
+						f = 0
 				if f == 1:
 					R = float(input("input right motor "))
 					f = 2
+					if R > 100 or L < -100:
+						f = 1
 				if f == 2:
 					T = float(input("input time "))
-					#f = 3
-				#if f == 3:
-					#M = float(input("input mode "))
-				motor(L, R, T, 0)
-				motor(0, 0, 2)
-				motor_stop()
-				f = 0
+					f = 3
+				if f == 3:
+					M = float(input("input mode "))
+					if M == 0 or M == 1:
+						motor(L, R, T, M)
+						motor(0, 0, 2)
+						motor_stop()
+						f = 0
+					else:
+						f = 3
 			except KeyboardInterrupt:
 				print("Emergency!")
+				motor(0, 0, 3)
 				motor_stop()
 				sys.exit()
 			except:
