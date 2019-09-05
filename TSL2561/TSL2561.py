@@ -113,16 +113,39 @@ class Illumi:
             lux = 0
 
         return lux
+sensor1 = ""
+sensor2 = ""
 
-sensor1 = Illumi(0x39, 1)
-sensor1.powerOn()
-sensor1.setIntegrationTime('default')
+def tsl2561_setup():
+	global sensor1
+	global sensor2
+	try:
+		sensor1 = Illumi(0x39, 1)
+		sensor1.powerOn()
+		sensor1.setIntegrationTime('default')
+	except:
+		try:
+			sensor1 = Illumi(0x39, 1)
+			sensor1.powerOn()
+			sensor1.setIntegrationTime('default')
+		except:
+			pass
 
-sensor2 = Illumi(0x29, 1)
-sensor2.powerOn()
-sensor2.setIntegrationTime('default')
+	try:
+		sensor2 = Illumi(0x29, 1)
+		sensor2.powerOn()
+		sensor2.setIntegrationTime('default')
+	except:
+		try:
+			sensor2 = Illumi(0x29, 1)
+			sensor2.powerOn()
+			sensor2.setIntegrationTime('default')
+		except:
+			pass
 
 def readLux():
+	global sensor1
+	global sensor2
 	#sensor1  = Illumi(0x39,1)
 	#sensor1.powerOn()
     #sensor1.setHighGain()
@@ -135,9 +158,12 @@ def readLux():
 
 	try:
 		lux1 = sensor1.getLux()
-		lux2 = sensor2.getLux()
 	except:
 		lux1 = -1.0
+
+	try:
+		lux2 = sensor2.getLux()
+	except:
 		lux2 = -1.0
 
 	value = [lux1, lux2]
@@ -145,10 +171,11 @@ def readLux():
 
 if __name__ == "__main__":
 	try:
+		tsl2561_setup()
 		while 1:
 			lux = readLux()
 			print(str(lux[0])+"	:	"+str(lux[1]))
-			print(type(lux[0]+lux[1]))
+			#print(type(lux[0]+lux[1]))
 			time.sleep(0.5)
 	except KeyboardInterrupt:
 		print()
