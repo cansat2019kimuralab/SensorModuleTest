@@ -24,8 +24,9 @@ def Capture(path, width = 320, height = 240):
 
 if __name__ == "__main__":
 	try:
-		photoName = Capture("/home/pi/photo/photo", 160, 120)
-		print(photoName)
+		for i in range(3):
+			photoName = Capture("photo/photo", 160, 120)
+			print(photoName)
 	except KeyboardInterrupt:
 		print('stop')
 	except:
